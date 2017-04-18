@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-        targetNamespace="http://jw.nju.edu.cn/schema" 
-        xmlns:tns="http://jw.nju.edu.cn/schema" 
-        xmlns:nju="http://www.nju.edu.cn/schema" 
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://jw.nju.edu.cn/schema"
+        xmlns:tns="http://jw.nju.edu.cn/schema"
         elementFormDefault="qualified">
 
   <include schemaLocation="Student.xsd"/>
