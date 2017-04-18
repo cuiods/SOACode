@@ -64,17 +64,13 @@ public class Department extends Entity {
     @Override
     public Element parseElement(Document document, String tagName) {
         Element root = document.createElement(tagName);
-        Element did = document.createElement("部门编号");
-        did.setTextContent(id);
-        Element dname = document.createElement("部门名称");
-        dname.setTextContent(name);
+        root.setAttribute("部门编号",id);
+        root.setAttribute("部门名称",name);
         Element dtype = document.createElement("部门性质");
         dtype.setTextContent(type);
         Element ddes = document.createElement("部门介绍");
         ddes.setTextContent(description);
         Element dlocation = location.parseElement(document,"部门地址");
-        root.appendChild(did);
-        root.appendChild(dname);
         root.appendChild(dtype);
         root.appendChild(ddes);
         root.appendChild(dlocation);

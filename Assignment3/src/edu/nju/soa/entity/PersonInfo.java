@@ -54,6 +54,7 @@ public class PersonInfo extends Entity {
     @Override
     public Element parseElement(Document document, String tagName) {
         Element root = document.createElement(tagName);
+        root.setAttribute("xmlns","http://www.nju.edu.cn/schema");
         Element nameE = document.createElement("个人姓名");
         nameE.setTextContent(name);
         Element departmentE = department.parseElement(document,"所在部门");
