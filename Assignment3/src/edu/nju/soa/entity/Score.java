@@ -1,5 +1,6 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.enums.ScoreType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -10,9 +11,16 @@ public class Score extends Entity {
     private String studentId;
     private String score;
     private String courseId;
-    private String type;
+    private ScoreType type;
 
-    public Score(String studentId, String score, String courseId, String type) {
+    public Score(String studentId, String score, String courseId, ScoreType type) {
+        try {
+            int scoreInt = Integer.parseInt(score);
+            if (scoreInt<0 || scoreInt>100 || studentId.length()!=9 || courseId.length()!=6)
+                throw new IllegalArgumentException();
+        }catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
         this.studentId = studentId;
         this.score = score;
         this.courseId = courseId;
@@ -43,11 +51,11 @@ public class Score extends Entity {
         this.courseId = courseId;
     }
 
-    public String getType() {
+    public ScoreType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ScoreType type) {
         this.type = type;
     }
 
@@ -55,7 +63,7 @@ public class Score extends Entity {
     public Element parseElement(Document document, String tagName) {
         Element root = document.createElement(tagName);
         root.setAttribute("课程编号",courseId);
-        root.setAttribute("成绩性质",type);
+        root.setAttribute("成绩性质",type.toString());
         Element scoreNode = document.createElement("成绩");
         Element sid = document.createElement("学号");
         sid.setTextContent(studentId);

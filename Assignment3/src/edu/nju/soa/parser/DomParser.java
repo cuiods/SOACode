@@ -1,6 +1,8 @@
 package edu.nju.soa.parser;
 
 import edu.nju.soa.entity.*;
+import edu.nju.soa.enums.DepartmentType;
+import edu.nju.soa.enums.ScoreType;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -64,9 +66,10 @@ public class DomParser {
                                         "141250123","141250120","141250116","141250179","141250060","141250017"};
         String nameList[] = new String[]{"周聪","崔浩","白国风","阮威威","周颖婷","殷乾恩","潘凌伟","郑韵芝","孙婧","袁阳阳",
                                         "赖斌","陈自强"};
-        for (int i = 0; i < 12; i++) {
+        assert idList.length == nameList.length;
+        for (int i = 0; i < idList.length; i++) {
             Student student = new Student(idList[i],
-                    new PersonInfo(nameList[i], new Department("141250","软件学院","院","专注于培养软件人才",
+                    new PersonInfo(nameList[i], new Department("141250","软件学院", DepartmentType.院,"专注于培养软件人才",
                             new Location("中国","江苏","南京市鼓楼区","汉口路","22号")),
                             new Location("中国","江苏","南京市鼓楼区","汉口路","22号"),
                             "优秀的软院学生！"),randomScore(idList[i]));
@@ -87,9 +90,9 @@ public class DomParser {
             int score1 = pass>2?random.nextInt(20)+80:random.nextInt(60)+10;
             int score2 = pass>2?random.nextInt(20)+80:random.nextInt(60)+40;
             int score3 = random.nextInt(10)+90;
-            scoreList.add(new Score(studentId,score1+"",course.toString(),"平时成绩"));
-            scoreList.add(new Score(studentId,score2+"",course.toString(),"期末成绩"));
-            scoreList.add(new Score(studentId,score3+"",course.toString(),"总评成绩"));
+            scoreList.add(new Score(studentId,score1+"",course.toString(), ScoreType.平时成绩));
+            scoreList.add(new Score(studentId,score2+"",course.toString(), ScoreType.期末成绩));
+            scoreList.add(new Score(studentId,score3+"",course.toString(), ScoreType.总评成绩));
         }
         return scoreList;
     }

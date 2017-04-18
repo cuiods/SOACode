@@ -13,6 +13,7 @@ public class PersonInfo extends Entity {
     private String description;
 
     public PersonInfo(String name, Department department, Location location, String description) {
+        if (name.length()>12) throw new IllegalArgumentException();
         this.name = name;
         this.department = department;
         this.location = location;

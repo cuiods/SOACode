@@ -1,5 +1,6 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.enums.DepartmentType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -9,11 +10,12 @@ import org.w3c.dom.Element;
 public class Department extends Entity {
     private String id;
     private String name;
-    private String type;
+    private DepartmentType type;
     private String description;
     private Location location;
 
-    public Department(String did, String name, String type, String description, Location location) {
+    public Department(String did, String name, DepartmentType type, String description, Location location) {
+        if (did.length()!=6 || name.length()>12) throw new IllegalArgumentException();
         this.id = did;
         this.name = name;
         this.type = type;
@@ -37,11 +39,11 @@ public class Department extends Entity {
         this.name = name;
     }
 
-    public String getType() {
+    public DepartmentType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(DepartmentType type) {
         this.type = type;
     }
 
@@ -67,7 +69,7 @@ public class Department extends Entity {
         root.setAttribute("部门编号",id);
         root.setAttribute("部门名称",name);
         Element dtype = document.createElement("部门性质");
-        dtype.setTextContent(type);
+        dtype.setTextContent(type.toString());
         Element ddes = document.createElement("部门介绍");
         ddes.setTextContent(description);
         Element dlocation = location.parseElement(document,"部门地址");

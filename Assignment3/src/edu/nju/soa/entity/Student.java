@@ -14,6 +14,7 @@ public class Student extends Entity {
     private List<Score> scoreList;
 
     public Student(String id, PersonInfo personInfo, List<Score> scoreList) {
+        if (id.length()!=9) throw new IllegalArgumentException();
         this.id = id;
         this.personInfo = personInfo;
         this.scoreList = scoreList;
