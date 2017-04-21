@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.nju.edu.cn/schema"
+        xmlns:nju="http://www.nju.edu.cn/schema"
+        elementFormDefault="qualified">
+
+  <include schemaLocation="Department.xsd"/>
+
+  <simpleType name="个人姓名类型">
+    <restriction base="string">
+      <maxLength value="12"/>
+    </restriction>
+  </simpleType>
+  
+  <complexType name="个人信息类型">
+    <all>
+      <element name="个人姓名" type="nju:个人姓名类型"/>
+      <element name="所在部门" type="nju:部门类型"/>
+      <element name="家庭住址" type="nju:地址类型"/>
+      <element name="个人简介" type="string"/>
+    </all>
+  </complexType>
+
+  <element name="个人信息" type="nju:个人信息类型"/>
+  
+</schema>
