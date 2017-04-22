@@ -15,11 +15,12 @@
             <xsl:attribute name="课程编号">
                 <xsl:value-of select="@课程编号" />
             </xsl:attribute>
-            <xsl:apply-templates select="key('groupByCourseId', concat(@课程编号, ':', @成绩性质))" mode="inner"/>
+            <xsl:apply-templates select="key('groupByCourseId', concat(@课程编号, ':', @成绩性质))" mode="inner" />
         </课程成绩>
     </xsl:template>
     <xsl:template match="课程成绩" mode="inner">
         <xsl:for-each select="成绩">
+            <xsl:sort select="得分" />
             <成绩>
                 <学号><xsl:value-of select="学号" /></学号>
                 <得分><xsl:value-of select="得分" /></得分>
