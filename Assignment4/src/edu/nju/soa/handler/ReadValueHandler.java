@@ -1,5 +1,7 @@
-package edu.nju.soa;
+package edu.nju.soa.handler;
 
+import edu.nju.soa.entity.Course;
+import edu.nju.soa.entity.Score;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -8,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sam on 2017/4/23.
+ * Customized handler
  */
-public class ReadValueHandle extends DefaultHandler{
+public class ReadValueHandler extends DefaultHandler{
 
-    private List<Class> list = new ArrayList<Class>();
+    private List<Course> list = new ArrayList<>();
 
-    private Class tempClass;
+    private Course tempCourse;
 
     private Score tempScore;
 
     private String preTag;
 
     private boolean fail = false;
-    public List<Class> getList() {
+    public List<Course> getList() {
         return list;
     }
 
@@ -40,7 +42,7 @@ public class ReadValueHandle extends DefaultHandler{
         //super.startElement(uri, localName, qName, attributes);
         preTag = qName;
         if(preTag.equals("课程成绩")){
-            tempClass = new Class(attributes.getValue("成绩性质"),attributes.getValue("课程编号"));
+            tempCourse = new Course(attributes.getValue("成绩性质"),attributes.getValue("课程编号"));
         }else if(preTag.equals("成绩")){
             tempScore = new Score();
         }
@@ -72,18 +74,18 @@ public class ReadValueHandle extends DefaultHandler{
 //        super.endElement(uri, localName, qName);
         if(qName.equals("成绩")){
             if(fail){
-                tempClass.addScore(tempScore);
+                tempCourse.addScore(tempScore);
                 fail = false;
             }
             tempScore = null;
         }else if(qName.equals("课程成绩")){
-            int size = tempClass.getScoreSize();
+            int size = tempCourse.getScoreSize();
             if(size>0){
-                list.add(tempClass);
+                list.add(tempCourse);
             }
-            tempClass = null;
+            tempCourse = null;
         }
-        preTag = null;//注意！！避免换行空格的影响
+        preTag = null;
     }
 
 }

@@ -1,5 +1,8 @@
 package edu.nju.soa;
 
+import edu.nju.soa.entity.Course;
+import edu.nju.soa.handler.ReadValueHandler;
+import edu.nju.soa.sax.SaxTransform;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -13,33 +16,24 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by sam on 2017/4/23.
+ * Entrance of SAX parser
  */
 public class SaxMain {
 
     public static void main(String[] args) {
-        SAXParser parser = null;
+        SAXParser parser;
         try{
             parser = SAXParserFactory.newInstance().newSAXParser();
-            ReadValueHandle handle = new ReadValueHandle();
+            ReadValueHandler handle = new ReadValueHandler();
 
             XMLReader reader = parser.getXMLReader();
             reader.setContentHandler(handle);
             reader.parse(new InputSource(new FileInputStream("文档3.xml")));
-            List<Class> classes = handle.getList();
-//            for(Class c:classes){
-//                System.out.println(c.getId()+"|"+c.getType()+"|");
-//            }
+            List<Course> courses = handle.getList();
             SaxTransform saxTransform = new SaxTransform();
-            saxTransform.transfer("文档4.xml",classes);
+            saxTransform.transfer("文档4.xml", courses);
 
-        }catch (SAXException e){
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }catch (SAXException | ParserConfigurationException | IOException e){
             e.printStackTrace();
         }
     }

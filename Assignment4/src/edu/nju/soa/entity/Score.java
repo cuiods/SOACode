@@ -1,4 +1,4 @@
-package edu.nju.soa;
+package edu.nju.soa.entity;
 
 /**
  * Created by sam on 2017/4/23.

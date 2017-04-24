@@ -1,4 +1,4 @@
-package edu.nju.soa;
+package edu.nju.soa.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +6,15 @@ import java.util.List;
 /**
  * Created by sam on 2017/4/23.
  */
-public class Class {
+public class Course {
     private String id;
     private String type;
     private List<Score> scores;
 
-    public Class(String Id,String Type){
+    public Course(String Id, String Type){
         this.id = Id;
         this.type = Type;
-        scores = new ArrayList<Score>();
+        scores = new ArrayList<>();
     }
 
     public String getId() {
