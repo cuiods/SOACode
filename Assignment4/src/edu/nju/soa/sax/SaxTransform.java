@@ -56,6 +56,7 @@ public class SaxTransform {
 
             transformerhandler.startDocument();
             AttributesImpl attr = new AttributesImpl();
+            attr.addAttribute("","","xmlns","","http://jw.nju.edu.cn/schema");
 
             transformerhandler.startElement("","","课程成绩列表",attr);
 

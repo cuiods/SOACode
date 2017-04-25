@@ -42,7 +42,7 @@ public class ReadValueHandler extends DefaultHandler{
         //super.startElement(uri, localName, qName, attributes);
         preTag = qName;
         if(preTag.equals("课程成绩")){
-            tempCourse = new Course(attributes.getValue("成绩性质"),attributes.getValue("课程编号"));
+            tempCourse = new Course(attributes.getValue("课程编号"),attributes.getValue("成绩性质"));
         }else if(preTag.equals("成绩")){
             tempScore = new Score();
         }
