@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<学生列表>
+<学生列表 xmlns="http://jw.nju.edu.cn/schema">
     <学生>
         <学号>141250204</学号>
         <个人信息 xmlns="http://www.nju.edu.cn/schema">

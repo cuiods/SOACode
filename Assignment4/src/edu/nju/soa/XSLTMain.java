@@ -12,6 +12,8 @@ public class XSLTMain {
         try {
             Templates templates = transformerFactory.newTemplates(new StreamSource(new File("xsl/scoreList.xsl")));
             Transformer transformer = templates.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             Source source = new StreamSource(new FileInputStream("xsl/文档2.xml"));
             Result result = new StreamResult(new FileOutputStream("文档3.xml"));
             transformer.transform(source, result);

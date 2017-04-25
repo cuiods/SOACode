@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<课程成绩列表 xmlns="http://jw.nju.edu.cn/schema">
+<?xml version="1.0" encoding="UTF-8"?><课程成绩列表 xmlns:nju="http://jw.nju.edu.cn/schema" xmlns="http://jw.nju.edu.cn/schema">
     <课程成绩 成绩性质="平时成绩" 课程编号="309716">
         <成绩>
             <学号>141250019</学号>
