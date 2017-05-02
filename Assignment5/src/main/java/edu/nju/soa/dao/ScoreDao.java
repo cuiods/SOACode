@@ -1,11 +1,14 @@
 package edu.nju.soa.dao;
 
+import edu.nju.soa.entity.CourseScoreEntity;
 import edu.nju.soa.entity.ScoreEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -26,9 +29,11 @@ public class ScoreDao {
     }
 
     private ScoreDao() {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure(ClassLoader.getSystemClassLoader().getResource("hibernate.cfg.xml")).build();
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        Configuration config = new Configuration().configure();
+        config.addAnnotatedClass(CourseScoreEntity.class);
+        config.addAnnotatedClass(ScoreEntity.class);
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
+        sessionFactory = config.buildSessionFactory(serviceRegistry);
     }
 
     /**
