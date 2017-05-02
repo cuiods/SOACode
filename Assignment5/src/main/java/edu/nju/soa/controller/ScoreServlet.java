@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 import javax.xml.soap.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -44,17 +45,24 @@ public class ScoreServlet extends HttpServlet{
             SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
             soapEnvelope.addNamespaceDeclaration("xsd","http://www.w3.org/2001/XMLSchema");
             SOAPBody soapBody = soapEnvelope.getBody();
-            SOAPElement element = soapBody.addChildElement(soapEnvelope.createName("课程成绩列表","jw","http://jw.nju.edu.cn/schema"));
-            for (ScoreEntity entity: entities) {
-                SOAPElement courseElement = element.addChildElement(element.createQName("课程成绩","jw"));
-                courseElement.addAttribute(element.createQName("成绩性质","jw"),
-                        entity.getEntity().getType().toString());
-                courseElement.addAttribute(element.createQName("课程编号","jw"),
-                        entity.getEntity().getCid()+"");
-                courseElement.addChildElement(courseElement.createQName("学号","jw"))
-                        .addTextNode(entity.getSid()+"");
-                courseElement.addChildElement(courseElement.createQName("成绩","jw"))
-                        .addTextNode(entity.getScore().toString());
+            if (entities.size()>0) {
+                SOAPElement element = soapBody.addChildElement(soapEnvelope.createName("课程成绩列表","jw","http://jw.nju.edu.cn/schema"));
+                for (ScoreEntity entity: entities) {
+                    SOAPElement courseElement = element.addChildElement(element.createQName("课程成绩","jw"));
+                    courseElement.addAttribute(element.createQName("成绩性质","jw"),
+                            entity.getEntity().getType().toString());
+                    courseElement.addAttribute(element.createQName("课程编号","jw"),
+                            entity.getEntity().getCid()+"");
+                    courseElement.addChildElement(courseElement.createQName("学号","jw"))
+                            .addTextNode(entity.getSid()+"");
+                    courseElement.addChildElement(courseElement.createQName("成绩","jw"))
+                            .addTextNode(entity.getScore().toString());
+                }
+            } else {
+                SOAPFault fault = soapBody.addFault();
+                QName faultName = new QName(SOAPConstants.URI_NS_SOAP_ENVELOPE, "Server");
+                fault.setFaultCode(faultName);
+                fault.setFaultString("Cannot find any score for student id:"+sid);
             }
             message.saveChanges();
             response.setStatus(HttpServletResponse.SC_OK);
