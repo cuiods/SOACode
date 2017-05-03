@@ -58,7 +58,10 @@ public class ScoreDao {
         } else return null;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        ScoreEntity entity1 = (ScoreEntity) session.save(entity);
+        int id = (Integer) session.save(entity);
+        Query query = session.createQuery("from ScoreEntity where id=:id ");
+        query.setParameter("id",id);
+        ScoreEntity entity1 = (ScoreEntity) query.getSingleResult();
         transaction.commit();
         session.close();
         return entity1;
