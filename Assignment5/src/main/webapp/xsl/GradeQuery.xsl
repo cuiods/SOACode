@@ -20,8 +20,8 @@
                                 </env:Subcode>
                             </env:Code>
                             <env:Reason>
-                                <env:Text xml:lang="en">no such sid found in score list:6</env:Text>
-                                <env:Text xml:lang="zh">成绩单中无此学号：6</env:Text>
+                                <env:Text xml:lang="en">no such sid found in score list:<xsl:value-of select="$sid"/></env:Text>
+                                <env:Text xml:lang="zh">成绩单中无此学号：<xsl:value-of select="$sid"/></env:Text>
                             </env:Reason>
                             <env:Detail>
                                 <my:adivce>请确认输入的学号为9位，且合法。</my:adivce>
