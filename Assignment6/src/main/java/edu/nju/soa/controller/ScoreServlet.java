@@ -47,16 +47,7 @@ public class ScoreServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String sid =  "";
-        Enumeration enumeration = request.getHeaderNames();
         MimeHeaders headers = new MimeHeaders();
-        while (enumeration.hasMoreElements()) {
-            String headerName = (String) enumeration.nextElement();
-            String headerValue = (String) enumeration.nextElement();
-            StringTokenizer values = new StringTokenizer(headerValue, ",");
-            while (values.hasMoreTokens()) {
-                headers.addHeader(headerName, values.nextToken().trim());
-            }
-        }
         try {
             InputStream inputStream = request.getInputStream();
             SOAPMessage message = messageFactory.createMessage(headers,inputStream);
@@ -64,6 +55,7 @@ public class ScoreServlet extends HttpServlet{
             Iterator iterator = soapBody.getChildElements();
             SOAPElement element = (SOAPElement) iterator.next();
             sid = element.getTextContent();
+            System.out.println(sid);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SOAPException e) {
