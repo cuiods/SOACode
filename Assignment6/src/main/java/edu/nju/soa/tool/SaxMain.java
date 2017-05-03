@@ -12,6 +12,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import java.io.FileInputStream;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,13 @@ public class SaxMain {
             reader.parse(new InputSource(new FileInputStream(FILE_NAME)));
             scores = handle.getList();
            
-        }catch (SAXException | ParserConfigurationException | IOException e){
+        }catch (SAXException e){
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return scores;

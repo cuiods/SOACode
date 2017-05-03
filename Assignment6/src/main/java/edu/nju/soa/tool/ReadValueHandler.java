@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ReadValueHandler extends DefaultHandler{
 
-    private List<ScoreEntity> list = new ArrayList<>();
+    private List<ScoreEntity> list = new ArrayList<ScoreEntity>();
 
     private CourseScoreEntity tempCourse;
 
