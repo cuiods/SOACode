@@ -6,16 +6,27 @@
     <xsl:param name="sid"/>
 
     <xsl:template match="/">
-        <soap:Envelope
-                xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
-                soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
-            <soap:body>
+        <env:Envelope
+                xmlns:env="http://www.w3.org/2003/05/soap-envelope"
+                xmlns:my="http://www.example.com/">
+            <env:body>
                 <xsl:choose>
                     <xsl:when test="count(//jw:学号[text()=$sid]) = 0">
-                        <soap:Fault>
-                            <soap:falutcode>soap:Server</soap:falutcode>
-                            <soap:faultstring>Cannot find any score for student id:<xsl:value-of select="$sid"/></soap:faultstring>
-                        </soap:Fault>
+                        <env:Fault>
+                            <env:Code>
+                                <env:Value>env:Receiver</env:Value>
+                                <env:Subcode>
+                                    <env:Value>my:bad argument</env:Value>
+                                </env:Subcode>
+                            </env:Code>
+                            <env:Reason>
+                                <env:Text xml:lang="en">no such sid found in score list:6</env:Text>
+                                <env:Text xml:lang="zh">成绩单中无此学号：6</env:Text>
+                            </env:Reason>
+                            <env:Detail>
+                                <my:adivce>请确认输入的学号为9位，且合法。</my:adivce>
+                            </env:Detail>
+                        </env:Fault>
                     </xsl:when>
                     <xsl:otherwise>
                         <jw:课程成绩列表>
@@ -23,8 +34,8 @@
                         </jw:课程成绩列表>
                     </xsl:otherwise>
                 </xsl:choose>
-            </soap:body>
-        </soap:Envelope>
+            </env:body>
+        </env:Envelope>
     </xsl:template>
 
     <xsl:template match="//jw:学号[text()=$sid]">

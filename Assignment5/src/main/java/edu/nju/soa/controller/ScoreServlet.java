@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * score servlet
@@ -28,7 +29,7 @@ public class ScoreServlet extends HttpServlet{
     public void init() throws ServletException {
         scoreDao = ScoreDao.instance();
         try {
-            messageFactory = MessageFactory.newInstance();
+            messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
         } catch (SOAPException e) {
             e.printStackTrace();
         }
@@ -44,6 +45,7 @@ public class ScoreServlet extends HttpServlet{
             SOAPPart soapPart = message.getSOAPPart();
             SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
             soapEnvelope.addNamespaceDeclaration("xsd","http://www.w3.org/2001/XMLSchema");
+            soapEnvelope.addNamespaceDeclaration("my","http://www.example.com/");
             SOAPBody soapBody = soapEnvelope.getBody();
             if (entities.size()>0) {
                 SOAPElement element = soapBody.addChildElement(soapEnvelope.createName("课程成绩列表","jw","http://jw.nju.edu.cn/schema"));
@@ -60,9 +62,13 @@ public class ScoreServlet extends HttpServlet{
                 }
             } else {
                 SOAPFault fault = soapBody.addFault();
-                QName faultName = new QName(SOAPConstants.URI_NS_SOAP_ENVELOPE, "Server");
-                fault.setFaultCode(faultName);
-                fault.setFaultString("Cannot find any score for student id:"+sid);
+                fault.setFaultCode("env:Receiver");
+                QName subcode = soapEnvelope.createQName("bad argument","my");
+                fault.appendFaultSubcode(subcode);
+                fault.addFaultReasonText("no such sid found in score list:"+sid, Locale.ENGLISH);
+                fault.addFaultReasonText("成绩单中无此学号："+sid,Locale.CHINESE);
+                Detail detail = fault.addDetail();
+                detail.addChildElement(soapEnvelope.createQName("adivce","my")).addTextNode("请确认输入的学号为9位，且合法。");
             }
             message.saveChanges();
             response.setStatus(HttpServletResponse.SC_OK);
