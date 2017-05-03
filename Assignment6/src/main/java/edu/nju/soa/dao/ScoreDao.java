@@ -4,8 +4,7 @@ import edu.nju.soa.entity.CourseScoreEntity;
 import edu.nju.soa.entity.ScoreEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -50,5 +49,31 @@ public class ScoreDao {
         List<ScoreEntity> scoreEntities = query.getResultList();
         session.close();
         return scoreEntities;
+    }
+
+    public ScoreEntity save(ScoreEntity entity) {
+        if (entity!=null) {
+            if (entity.getEntity()==null || entity.getEntity().getId() == 0)
+                return null;
+        } else return null;
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        ScoreEntity entity1 = (ScoreEntity) session.save(entity);
+        transaction.commit();
+        session.close();
+        return entity1;
+    }
+
+    public CourseScoreEntity save(CourseScoreEntity entity) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(entity);
+        Query query = session.createQuery("from CourseScoreEntity where cid=:cid and type=:ctype ");
+        query.setParameter("cid",entity.getCid());
+        query.setParameter("ctype",entity.getType());
+        CourseScoreEntity entity1 = (CourseScoreEntity) query.getSingleResult();
+        transaction.commit();
+        session.close();
+        return entity1;
     }
 }

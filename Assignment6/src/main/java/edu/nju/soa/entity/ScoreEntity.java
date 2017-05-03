@@ -61,11 +61,7 @@ public class ScoreEntity {
 
         ScoreEntity that = (ScoreEntity) o;
 
-        if (sid != that.sid) return false;
-        if (id != that.id) return false;
-        if (score != null ? !score.equals(that.score) : that.score != null) return false;
-
-        return true;
+        return sid == that.sid && id == that.id && (score != null ? score.equals(that.score) : that.score == null);
     }
 
     @Override

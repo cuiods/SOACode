@@ -3,7 +3,6 @@ package edu.nju.soa.entity;
 import edu.nju.soa.enums.ScoreType;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Course score entity
@@ -13,7 +12,7 @@ import java.io.Serializable;
 public class CourseScoreEntity {
     private int id;
     private int cid;
-    private ScoreType type;
+    private String type;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +36,12 @@ public class CourseScoreEntity {
     }
 
     @Basic
-    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    public ScoreType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ScoreType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -54,10 +52,7 @@ public class CourseScoreEntity {
 
         CourseScoreEntity that = (CourseScoreEntity) o;
 
-        if (cid != that.cid) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
-
-        return true;
+        return cid == that.cid && (type != null ? type.equals(that.type) : that.type == null);
     }
 
     @Override

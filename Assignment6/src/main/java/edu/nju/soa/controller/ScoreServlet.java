@@ -14,10 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * score servlet
@@ -91,7 +89,7 @@ public class ScoreServlet extends HttpServlet{
                 for (ScoreEntity entity: entities) {
                     SOAPElement courseElement = element.addChildElement(element.createQName("课程成绩","jw"));
                     courseElement.addAttribute(element.createQName("成绩性质","jw"),
-                            entity.getEntity().getType().toString());
+                            entity.getEntity().getType());
                     courseElement.addAttribute(element.createQName("课程编号","jw"),
                             entity.getEntity().getCid()+"");
                     courseElement.addChildElement(courseElement.createQName("学号","jw"))

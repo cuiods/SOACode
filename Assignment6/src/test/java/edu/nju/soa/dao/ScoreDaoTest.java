@@ -1,5 +1,7 @@
 package edu.nju.soa.dao;
 
+import edu.nju.soa.entity.CourseScoreEntity;
+import edu.nju.soa.enums.ScoreType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,6 +15,15 @@ public class ScoreDaoTest {
     public void getScoresByStudentId() throws Exception {
         ScoreDao scoreDao = ScoreDao.instance();
         System.out.println(scoreDao.getScoresByStudentId(141250204));
+    }
+
+    @Test
+    public void save1() throws Exception {
+        ScoreDao scoreDao = ScoreDao.instance();
+        CourseScoreEntity courseScoreEntity = new CourseScoreEntity();
+        courseScoreEntity.setCid(852290);
+        courseScoreEntity.setType("平时成绩");
+        System.out.println(scoreDao.save(courseScoreEntity).getId());
     }
 
 }

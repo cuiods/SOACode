@@ -1,8 +1,5 @@
 package edu.nju.soa.client;
 
-import edu.nju.soa.entity.ScoreEntity;
-
-import javax.xml.namespace.QName;
 import javax.xml.soap.*;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,7 +8,6 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 /**
  * client for post test using {@link java.net.HttpURLConnection}
@@ -21,9 +17,10 @@ public class HttpUrlClient {
     public static void main(String[] args) {
         HttpUrlClient client = new HttpUrlClient();
         System.out.println(client.doPost("141250204"));
+        System.out.println(client.doPost("141250019"));
     }
 
-    public String doPost(String sid) {
+    private String doPost(String sid) {
         try {
             URL url = new URL("http://localhost:8080/score");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

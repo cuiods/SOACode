@@ -1,4 +1,12 @@
-package edu.nju.soa.dao;
+package edu.nju.soa.service;
+
+import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.StringWriter;
 
 /**
  * Score data methods
@@ -28,6 +36,7 @@ public class ScoreService {
             System.out.println("An error occurred while applying the xml file.");
             e.printStackTrace();
         }
+        return "";
     }
 
 }

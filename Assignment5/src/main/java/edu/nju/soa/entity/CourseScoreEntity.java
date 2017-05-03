@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class CourseScoreEntity {
     private int id;
     private int cid;
-    private ScoreType type;
+    private String type;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +37,12 @@ public class CourseScoreEntity {
     }
 
     @Basic
-    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    public ScoreType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ScoreType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
