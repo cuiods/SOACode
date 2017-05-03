@@ -3,7 +3,6 @@ package edu.nju.soa.service;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.StringWriter;
@@ -16,7 +15,7 @@ public class ScoreService {
     public String getScoresByStudentId(int sid) {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         try {
-            Templates templates = transformerFactory.newTemplates(new StreamSource(new File("xsl/GradeQuery.xsl")));
+            Templates templates = transformerFactory.newTemplates(new StreamSource(new FileInputStream("xsl/GradeQuery.xsl")));
             Transformer transformer = templates.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");

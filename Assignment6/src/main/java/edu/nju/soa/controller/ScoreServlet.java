@@ -84,6 +84,7 @@ public class ScoreServlet extends HttpServlet{
             SOAPPart soapPart = message.getSOAPPart();
             SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
             soapEnvelope.addNamespaceDeclaration("xsd","http://www.w3.org/2001/XMLSchema");
+            soapEnvelope.addNamespaceDeclaration("my","http://www.example.com/");
             SOAPBody soapBody = soapEnvelope.getBody();
             if (entities.size()>0) {
                 SOAPElement element = soapBody.addChildElement(soapEnvelope.createName("课程成绩列表","jw","http://jw.nju.edu.cn/schema"));
