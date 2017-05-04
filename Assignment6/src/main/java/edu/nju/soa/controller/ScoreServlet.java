@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -85,6 +86,23 @@ public class ScoreServlet extends HttpServlet{
             SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
             soapEnvelope.addNamespaceDeclaration("xsd","http://www.w3.org/2001/XMLSchema");
             soapEnvelope.addNamespaceDeclaration("my","http://www.example.com/");
+            //header
+            SOAPHeader soapHeader = soapEnvelope.getHeader();
+            SOAPElement headelement = soapHeader.addChildElement(soapEnvelope.createName("transaction","t","http://thirdparty.example.org/transaction"));
+            headelement.addAttribute(soapEnvelope.createQName("encodingStyle","env"),"http://example.com/encoding");
+            headelement.addAttribute(soapEnvelope.createQName("role","env"),"http://www.w3.org/2003/05/soap-envelope/role/next");
+            headelement.addAttribute(soapEnvelope.createQName("mustUnderstand","env"),"true");
+
+            headelement.addChildElement(headelement.createQName("group","t")).addTextNode("18");
+            Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int date = c.get(Calendar.DATE);
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+            int second = c.get(Calendar.SECOND);
+            headelement.addChildElement(headelement.createQName("date","t")).addTextNode(year + "/" + month + "/" + date + " " +hour + ":" +minute + ":" + second);
+
             SOAPBody soapBody = soapEnvelope.getBody();
             if (entities.size()>0) {
                 SOAPElement element = soapBody.addChildElement(soapEnvelope.createName("课程成绩列表","jw","http://jw.nju.edu.cn/schema"));
