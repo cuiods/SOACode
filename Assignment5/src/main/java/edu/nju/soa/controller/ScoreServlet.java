@@ -49,22 +49,28 @@ public class ScoreServlet extends HttpServlet{
             soapEnvelope.addNamespaceDeclaration("my","http://www.example.com/");
             //header
             SOAPHeader soapHeader = soapEnvelope.getHeader();
-            SOAPElement headelement = soapHeader.addChildElement(soapEnvelope.createName("transaction","t","http://thirdparty.example.org/transaction"));
+            SOAPElement headelement = soapHeader.addChildElement(soapEnvelope.createName("transaction","t","http://thirdparty.example.org/transaction")).addTextNode("5");
             headelement.addAttribute(soapEnvelope.createQName("encodingStyle","env"),"http://example.com/encoding");
-            headelement.addAttribute(soapEnvelope.createQName("role","env"),"http://www.w3.org/2003/05/soap-envelope/role/next");
             headelement.addAttribute(soapEnvelope.createQName("mustUnderstand","env"),"true");
 
-            headelement.addChildElement(headelement.createQName("group","t")).addTextNode("18");
-            Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int date = c.get(Calendar.DATE);
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-            int second = c.get(Calendar.SECOND);
-            headelement.addChildElement(headelement.createQName("date","t")).addTextNode(year + "/" + month + "/" + date + " " +hour + ":" +minute + ":" + second);
+            SOAPElement security = soapHeader.addChildElement(soapEnvelope.createName("Security","s","http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"));
+            security.addAttribute(soapEnvelope.createQName("mustUnderstand","env"),"true");
+            SOAPElement name = security.addChildElement(security.createQName("UsernameToken","s"));
+            name.addChildElement(name.createQName("Username","s")).addTextNode("UserName");
+            name.addChildElement(name.createQName("Password","s")).addTextNode("Password");
+
+//            Calendar c = Calendar.getInstance();
+//            int year = c.get(Calendar.YEAR);
+//            int month = c.get(Calendar.MONTH)+1;
+//            int date = c.get(Calendar.DATE);
+//            int hour = c.get(Calendar.HOUR_OF_DAY);
+//            int minute = c.get(Calendar.MINUTE);
+//            int second = c.get(Calendar.SECOND);
+//            security.addChildElement(security.createQName("date","t")).addTextNode(year + "/" + month + "/" + date + " " +hour + ":" +minute + ":" + second);
 
             SOAPBody soapBody = soapEnvelope.getBody();
+//            SOAPElement RDF = soapBody.addChildElement(soapEnvelope.createName("rdf:RDF","rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
+//            RDF.addAttribute(soapEnvelope.createQName("jw",""))
             if (entities.size()>0) {
                 SOAPElement element = soapBody.addChildElement(soapEnvelope.createName("课程成绩列表","jw","http://jw.nju.edu.cn/schema"));
                 for (ScoreEntity entity: entities) {
