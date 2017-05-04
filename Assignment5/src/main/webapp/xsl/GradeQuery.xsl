@@ -9,6 +9,15 @@
         <env:Envelope
                 xmlns:env="http://www.w3.org/2003/05/soap-envelope"
                 xmlns:my="http://www.example.com/">
+            <env:Header>
+                <t:transaction xmlns:t="http://thirdparty.example.org/transaction" env:encodingStyle="http://example.com/encoding" env:mustUnderstand="true">5</t:transaction>
+                <s:Security xmlns:s="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" env:mustUnderstand="true">
+                    <s:UsernameToken>
+                        <s:Username>UserName</s:Username>
+                        <s:Password>Password</s:Password>
+                    </s:UsernameToken>
+                </s:Security>
+            </env:Header>
             <env:body>
                 <xsl:choose>
                     <xsl:when test="count(//jw:学号[text()=$sid]) = 0">
