@@ -3,6 +3,7 @@ package edu.nju.soa.dao;
 import edu.nju.soa.entity.CourseScoreEntity;
 import edu.nju.soa.entity.ScoreEntity;
 import edu.nju.soa.enums.ScoreType;
+import edu.nju.soa.tool.EditScore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -39,6 +40,14 @@ public class ScoreDaoTest {
         scoreEntity.setScore(97);
         scoreEntity.setSid(141250204);
         System.out.println(scoreDao.save(scoreEntity).getId());
+    }
+
+    @Test
+    public void update() throws Exception {
+        ScoreDao scoreDao = ScoreDao.instance();
+        EditScore editScore = new EditScore(141250205,309716,"平时成绩",21);
+        String result = scoreDao.update(editScore);
+        System.out.println("test result:"+result);
     }
 
 }

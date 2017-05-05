@@ -2,6 +2,7 @@ package edu.nju.soa.dao;
 
 import edu.nju.soa.entity.CourseScoreEntity;
 import edu.nju.soa.entity.ScoreEntity;
+import edu.nju.soa.tool.EditScore;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -78,5 +79,32 @@ public class ScoreDao {
         transaction.commit();
         session.close();
         return entity1;
+    }
+
+    public String update(EditScore editScore) {
+        String msg = "";
+        Session session = sessionFactory.openSession();
+        Query courseQuery = session.createQuery("from CourseScoreEntity where cid=:cid and type=:ctype ");
+        courseQuery.setParameter("cid",editScore.getCid());
+        courseQuery.setParameter("ctype",editScore.getCourseType());
+        List objectList = courseQuery.getResultList();
+        if (objectList.size()>0) {
+            CourseScoreEntity courseScoreEntity = (CourseScoreEntity) objectList.get(0);
+            Transaction transaction = session.beginTransaction();
+            Query scoreQuery = session.createQuery("update ScoreEntity score set score.score=:score " +
+                    "where score.sid=:sid and score.entity.id=:cid ");
+            scoreQuery.setParameter("score", editScore.getScore());
+            scoreQuery.setParameter("sid", editScore.getSid());
+            scoreQuery.setParameter("cid",courseScoreEntity.getId());
+            int num = scoreQuery.executeUpdate();
+            transaction.commit();
+            if (num==0) {
+                msg = "找不到编号为"+editScore.getSid()+"的学生";
+            }
+        } else {
+            msg = "找不到编号为"+editScore.getCid()+"的课程.";
+        }
+        session.close();
+        return msg;
     }
 }

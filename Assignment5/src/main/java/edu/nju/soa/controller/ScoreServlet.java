@@ -50,7 +50,7 @@ public class ScoreServlet extends HttpServlet{
             //header
             SOAPHeader soapHeader = soapEnvelope.getHeader();
             SOAPElement headelement = soapHeader.addChildElement(soapEnvelope.createName("transaction","t","http://thirdparty.example.org/transaction")).addTextNode("5");
-            headelement.addAttribute(soapEnvelope.createQName("encodingStyle","env"),"http://example.com/encoding");
+            headelement.addAttribute(soapEnvelope.createQName("encodingStyle","env"),"http://www.w3.org/2001/12/soap-encoding");
             headelement.addAttribute(soapEnvelope.createQName("mustUnderstand","env"),"true");
 
             SOAPElement security = soapHeader.addChildElement(soapEnvelope.createName("Security","s","http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"));
@@ -59,18 +59,7 @@ public class ScoreServlet extends HttpServlet{
             name.addChildElement(name.createQName("Username","s")).addTextNode("UserName");
             name.addChildElement(name.createQName("Password","s")).addTextNode("Password");
 
-//            Calendar c = Calendar.getInstance();
-//            int year = c.get(Calendar.YEAR);
-//            int month = c.get(Calendar.MONTH)+1;
-//            int date = c.get(Calendar.DATE);
-//            int hour = c.get(Calendar.HOUR_OF_DAY);
-//            int minute = c.get(Calendar.MINUTE);
-//            int second = c.get(Calendar.SECOND);
-//            security.addChildElement(security.createQName("date","t")).addTextNode(year + "/" + month + "/" + date + " " +hour + ":" +minute + ":" + second);
-
             SOAPBody soapBody = soapEnvelope.getBody();
-//            SOAPElement RDF = soapBody.addChildElement(soapEnvelope.createName("rdf:RDF","rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-//            RDF.addAttribute(soapEnvelope.createQName("jw",""))
             if (entities.size()>0) {
                 SOAPElement element = soapBody.addChildElement(soapEnvelope.createName("课程成绩列表","jw","http://jw.nju.edu.cn/schema"));
                 for (ScoreEntity entity: entities) {
@@ -79,9 +68,10 @@ public class ScoreServlet extends HttpServlet{
                             entity.getEntity().getType());
                     courseElement.addAttribute(element.createQName("课程编号","jw"),
                             entity.getEntity().getCid()+"");
-                    courseElement.addChildElement(courseElement.createQName("学号","jw"))
+                    SOAPElement scoreElement = courseElement.addChildElement(courseElement.createQName("成绩","jw"));
+                    scoreElement.addChildElement(scoreElement.createQName("学号","jw"))
                             .addTextNode(entity.getSid()+"");
-                    courseElement.addChildElement(courseElement.createQName("成绩","jw"))
+                    scoreElement.addChildElement(scoreElement.createQName("得分","jw"))
                             .addTextNode(entity.getScore().toString());
                 }
             } else {
@@ -110,4 +100,5 @@ public class ScoreServlet extends HttpServlet{
             e.printStackTrace();
         }
     }
+
 }
