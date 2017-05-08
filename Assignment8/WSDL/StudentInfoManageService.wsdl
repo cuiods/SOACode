@@ -19,7 +19,7 @@
 
         <xs:import namespace="http://jw.nju.edu.cn/schema" schemaLocation="Student.xsd"></xs:import>
         <xs:import namespace="http://jw.nju.edu.cn/schema" schemaLocation="Wrong.xsd"></xs:import>
-        <xs:import namespace="http://jw.nju.edu.cn/schema" schemaLocation="Success.xsd"></xs:import>
+
 
         <xs:element name="学生姓名" type="tns:个人姓名类型"/>
         <xs:element name="学生学号" type="tns:学号类型"/>

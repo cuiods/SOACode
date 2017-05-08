@@ -21,6 +21,12 @@
         <xs:import namespace="http://jw.nju.edu.cn/schema" schemaLocation="Wrong.xsd"></xs:import>
         <xs:import namespace="http://jw.nju.edu.cn/schema" schemaLocation="Verification.xsd"></xs:import>
 
+        <xs:complexType name="账号认证">
+          <xs:sequence>
+            <xs:element  name="学生学号" type="tns:学号类型"/>
+            <xs:element  name="密码" type="string"/>
+          </xs:sequence>
+        </xs:complexType>
       </xs:schema>
     </types>
 
@@ -33,7 +39,7 @@
                 style="http://www.w3.org/ns/wsdl/style/iri"
                 wsdlx:safe = "true">
             <input messageLabel="In"
-                  element="vxs:学号" />
+                  element="vxs:账户认证" />
             <output messageLabel="Out"
                   element="vxs:验证信息" />
             <outfault ref="ttns:invalidDataFault" messageLabel="Out"/>
@@ -49,7 +55,7 @@
           wsoap:code="soap:Sender"/>
 
         <operation ref="ttns:verify"
-          wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+          wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
 
     </binding>
 
