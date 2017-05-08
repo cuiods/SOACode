@@ -5,7 +5,8 @@
 	xmlns:tns="http://jw.nju.edu.cn/wsdl"
 	xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
 	xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
-	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdlx="http://www.w3.org/2006/01/wsdl-extensions">
 	
 	<import namespace="http://jw.nju.edu.cn/wsdl/fault" location="scoreFault.wsdl"></import>
 	
@@ -15,7 +16,7 @@
 		<xs:import
 			xmlns:xs="http://www.w3.org/2001/XMLSchema"
 			namespace="http://jw.nju.edu.cn/schema"
-			schemaLocation="../xsd/ScoreList.xsd" />
+			schemaLocation="xsd/ScoreList.xsd" />
 
 	</types>
 	
@@ -57,17 +58,7 @@
 			<outfault ref="fault:scoreModifyFault" messageLabel="Out" />
 		</operation>
 
-		<operation name="deleteScore"
-			pattern="http://www.w3.org/ns/wsdl/in-out"
-			style="http://www.w3.org/ns/wsdl/style/iri"
-			wsdlx:safe="true">
-
-			<input messageLabel="In" element="tns:课程成绩列表" />
-			<output messageLabel="Out" element="tns:课程成绩列表" />
-			<outfault ref="fault:studentIdFault" messageLabel="Out" />
-			<outfault ref="fault:courseIdFault" messageLabel="Out" />
-			<outfault ref="fault:scoreTypeFault" messageLabel="Out" />
-		</operation>
+		
 	</interface>
 	
 	<binding name="stuScoreBinding"
@@ -80,8 +71,7 @@
 			wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response" />
 		<operation ref="tns:modifyScore"
 			wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response" />
-		<operation ref="tns:delScore"
-			wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response" />
+		
 		<fault ref="fault:idNotFindFault" wsoap:code="soap:Sender" />
 		<fault ref="fault:scoreTypeFault" wsoap:code="soap:Sender" />
 		<fault ref="fault:scoreModifyFault" wsoap:code="soap:Sender" />

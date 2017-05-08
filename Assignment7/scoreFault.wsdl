@@ -4,7 +4,8 @@
 	targetNamespace="http://jw.nju.edu.cn/fault/wsdl"
 	xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
 	xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
-	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
 	
 	<!-- 类型定义 -->
