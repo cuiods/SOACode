@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://jw.nju.edu.cn/schema"
+  targetNamespace="http://jw.nju.edu.cn/schema"
+  elementFormDefault="qualified">
+
+	<element name="验证信息" type="tns:验证类型"/>
+
+	<complexType name="验证类型">
+		<sequence>
+			<element name="用户名不存在" type="string"/>
+			<element name="密码错误" type="string"/>
+			<element name="验证成功" type="tns:权限级别"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="权限级别">
+		<sequence>
+			<element name="高" type="string"/>
+			<element name="中" type="string"/>
+			<element name="低" type="string"/>
+		</sequence>
+	</complexType>
+</schema>

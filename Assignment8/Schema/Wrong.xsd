@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://jw.nju.edu.cn/schema" targetNamespace="http://jw.nju.edu.cn/schema" elementFormDefault="qualified">
+
+	<element name="错误信息" type="tns:错误类型"/>
+
+	<complexType name="错误类型">
+		<sequence>
+			<element name="请求缺少参数" type="string"/>
+			<element name="学号不存在" type="string"/>
+			<element name="姓名查询出错" type="string"/>
+			<element name="未含有对应学号的任何成绩" type="string"/>
+		</sequence>
+	</complexType>
+
+</schema>
