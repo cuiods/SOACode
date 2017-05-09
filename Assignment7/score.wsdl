@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<description 
+<description
 	xmlns="http://www.w3.org/ns/wsdl"
 	targetNamespace="http://jw.nju.edu.cn/wsdl"
 	xmlns:tns="http://jw.nju.edu.cn/wsdl"
@@ -7,25 +7,27 @@
 	xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:wsdlx="http://www.w3.org/2006/01/wsdl-extensions">
-	
-	<import namespace="http://jw.nju.edu.cn/wsdl/fault" location="scoreFault.wsdl"></import>
-	
-	<!-- 类型定义 -->
+
+	<documentation>成绩管理系统服务定义</documentation>
+
+	<import namespace="http://jw.nju.edu.cn/fault/wsdl" location="scoreFault.wsdl"/>
+
 	<types>
-	
 		<xs:import
 			xmlns:xs="http://www.w3.org/2001/XMLSchema"
 			namespace="http://jw.nju.edu.cn/schema"
 			schemaLocation="xsd/ScoreList.xsd" />
-
+		<xs:import
+				xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				namespace="http://www.nju.edu.cn/schema"
+				schemaLocation="xsd/ScoreFault.xsd" />
 	</types>
-	
+
 	<interface name="stuScoreInterface" extends="fault:scoreFaultInterface">
-		
+
 		<operation name="addScore"
 			pattern="http://www.w3.org/ns/wsdl/in-out"
-			style="http://www.w3.org/ns/wsdl/style/iri"
-			wsdlx:safe="true">
+			wsdlx:safe="false">
 
 			<input messageLabel="In" element="tns:课程成绩列表" />
 			<output messageLabel="Out" element="tns:课程成绩列表" />
@@ -34,7 +36,7 @@
 			<outfault ref="fault:scoreTypeFault" messageLabel="Out" />
 			<outfault ref="fault:scoreModifyFault" messageLabel="Out" />
 		</operation>
-		
+
 		<operation name="getScore"
 			pattern="http://www.w3.org/ns/wsdl/in-out"
 			style="http://www.w3.org/ns/wsdl/style/iri"
@@ -47,8 +49,7 @@
 
 		<operation name="modifyScore"
 			pattern="http://www.w3.org/ns/wsdl/in-out"
-			style="http://www.w3.org/ns/wsdl/style/iri"
-			wsdlx:safe="true">
+			wsdlx:safe="false">
 
 			<input messageLabel="In" element="tns:课程成绩列表" />
 			<output messageLabel="Out" element="tns:课程成绩列表" />
@@ -58,20 +59,19 @@
 			<outfault ref="fault:scoreModifyFault" messageLabel="Out" />
 		</operation>
 
-		
+
 	</interface>
-	
+
 	<binding name="stuScoreBinding"
 		interface="tns:stuScoreInterface"
-		type="http://www.w3.org/ns/wsdl/soap"
-		wsoap:protocal="http://www.w3.org/2003/05/soap/bindings/HTTP/">
+		type="http://www.w3.org/ns/wsdl/soap">
 		<operation ref="tns:addScore"
 			wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response" />
 		<operation ref="tns:getScore"
 			wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response" />
 		<operation ref="tns:modifyScore"
 			wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response" />
-		
+
 		<fault ref="fault:idNotFindFault" wsoap:code="soap:Sender" />
 		<fault ref="fault:scoreTypeFault" wsoap:code="soap:Sender" />
 		<fault ref="fault:scoreModifyFault" wsoap:code="soap:Sender" />
@@ -83,8 +83,8 @@
 		interface="tns:stuScoreInterface">
 		<endpoint name="stuScoreEndpoint"
 			binding="tns:stuScoreBinding"
-			address="http://localhost:8080/Assignment6/score"
-		
+			address="http://www.nju.edu.cn:8080/score"/>
+
 	</service>
-	
+
 </description>

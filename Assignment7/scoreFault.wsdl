@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<description 
-	xmlns="http://www.w3.org/ns/wsdl"
-	targetNamespace="http://jw.nju.edu.cn/fault/wsdl"
-	xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
-	xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
-	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	
-	
-	<!-- 类型定义 -->
+<description
+		xmlns="http://www.w3.org/ns/wsdl"
+		targetNamespace="http://jw.nju.edu.cn/fault/wsdl"
+		xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<documentation>成绩管理系统错误相关的服务定义</documentation>
+
 	<types>
-	
-		<xs:element name="InvalidDataFault" type="xsd:string" />
-		
+		<xs:import
+				xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				namespace="http://www.nju.edu.cn/schema"
+				schemaLocation="xsd/ScoreFault.xsd" />
 	</types>
 	
-	
-	<!-- 负责定义错误 -->
+
 	<interface name="scoreFaultInterface">
-		<fault name="idNotFindFault" element="fault:InvalidDataFault">
-			<documentation>学号不存在错误</documentation>
+		<fault name="idNotFindFault" element="fault:NotFoundFault">
+			<documentation>学号不存在</documentation>
 		</fault>
-		<fault name="studentIdFault" element="fault:InvalidDataFault">
-			<documentation>修改成绩时，输入的学号未找到</documentation>
+		<fault name="studentIdFault" element="fault:NotFoundFault">
+			<documentation>未找到输入学号的成绩</documentation>
 		</fault>
-		<fault name="courseIdFault" element="fault:InvalidDataFault">
-			<documentation>修改改成绩时，选择的课程未找到</documentation>
+		<fault name="courseIdFault" element="fault:NotFoundFault">
+			<documentation>课程不存在</documentation>
 		</fault>
-		<fault name="scoreTypeFault" element="fault:InvalidDataFault">
-			<documentation>修改成绩时成绩类型错误</documentation>
+		<fault name="scoreTypeFault" element="fault:InvalidParamFault">
+			<documentation>成绩类型参数格式错误</documentation>
 		</fault>
-		<fault name="scoreModifyFault" element="fault:InvalidDataFault">
-			<documentation>修改成绩时分数格式错误</documentation>
+		<fault name="scoreModifyFault" element="fault:InvalidParamFault">
+			<documentation>分数参数格式错误</documentation>
 		</fault>
 	</interface>
 

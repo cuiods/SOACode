@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.nju.edu.cn/schema"
+        xmlns:nju="http://www.nju.edu.cn/schema"
+        elementFormDefault="qualified">
+
+    <complexType name="ParamFaultType">
+        <all>
+            <element name="ParamIndex" type="integer"/>
+            <element name="FaultInfo" type="string"/>
+        </all>
+        <attribute name="ParamName" type="string"/>
+    </complexType>
+
+    <simpleType name="NotFoundReasonType">
+        <restriction base="string">
+            <enumeration value="学号不存在"/>
+            <enumeration value="未找到输入学号的成绩"/>
+            <enumeration value="课程不存在"/>
+            <enumeration value="未找到输入课程的成绩"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="NotFoundType">
+        <sequence>
+            <element name="NotFoundReason" type="nju:NotFoundReasonType"/>
+            <element name="NotFoundId" type="string"/>
+        </sequence>
+    </complexType>
+
+    <element name="InvalidParamFault" type="nju:ParamFaultType"/>
+    <element name="NotFoundFault" type="nju:NotFoundType"/>
+
+</schema>
