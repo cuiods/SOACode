@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<description
+        xmlns="http://www.w3.org/ns/wsdl"
+        targetNamespace="http://jw.nju.edu.cn/fault/wsdl"
+        xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <documentation>系统错误相关的服务定义</documentation>
+
+    <types>
+        <xs:import
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                namespace="http://www.nju.edu.cn/schema"
+                schemaLocation="../Schema/SystemFault.xsd" />
+    </types>
+
+
+    <interface name="faultInterface">
+        <fault name="idNotFoundFault" element="fault:NotFoundFault">
+            <documentation>未找到该学生</documentation>
+        </fault>
+        <fault name="pswErrorFault" element="fault:AuthFault">
+            <documentation>密码错误</documentation>
+        </fault>
+        <fault name="authorityFault" element="fault:AuthFault">
+            <documentation>无权限操作</documentation>
+        </fault>
+        <fault name="studentIdFault" element="fault:NotFoundFault">
+            <documentation>未找到输入学号的成绩</documentation>
+        </fault>
+        <fault name="courseIdFault" element="fault:NotFoundFault">
+            <documentation>未找到该课程</documentation>
+        </fault>
+        <fault name="scoreTypeFault" element="fault:InvalidParamFault">
+            <documentation>成绩类型参数格式错误</documentation>
+        </fault>
+        <fault name="scoreModifyFault" element="fault:InvalidParamFault">
+            <documentation>分数参数格式错误</documentation>
+        </fault>
+        <fault name="serverFault" element="fault:ServerFault">
+            <documentation>未知服务器异常</documentation>
+        </fault>
+    </interface>
+
+
+</description>

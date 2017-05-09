@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<description
+    xmlns="http://www.w3.org/ns/wsdl"
+    targetNamespace= "http://jw.nju.edu.cn/wsdl"
+    xmlns:tns= "http://jw.nju.edu.cn/wsdl"
+    xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
+    xmlns:wsoap= "http://www.w3.org/ns/wsdl/soap"
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:wsdlx="http://www.w3.org/2006/01/wsdl-extensions">
+
+    <documentation>学生账号认证服务描述</documentation>
+
+    <types>
+        <xs:import
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                namespace="http://jw.nju.edu.cn/schema"
+                schemaLocation="../Schema/Authentication.xsd" />
+        <xs:import
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                namespace="http://jw.nju.edu.cn/schema"
+                schemaLocation="../Schema/SystemFault.xsd" />
+    </types>
+
+    <interface  name = "studentAuthInterface" extends="fault:faultInterface">
+
+      <operation name="verify"
+                pattern="http://www.w3.org/ns/wsdl/in-out"
+                wsdlx:safe = "true">
+          <input messageLabel="In" element="tns:认证请求" />
+          <output messageLabel="Out" element="tns:验证信息" />
+          <outfault ref="fault:idNotFoundFault" messageLabel="Out"/>
+          <outfault ref="fault:pswErrorFault" messageLabel="Out"/>
+          <outfault ref="fault:serverFault" messageLabel="Out"/>
+      </operation>
+
+    </interface>
+
+    <binding name="studentAuthSOAPBinding"
+              interface="tns:studentAuthInterface"
+              type="http://www.w3.org/ns/wsdl/soap"
+              wsoap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP/">
+
+        <fault ref="fault:idNotFoundFault" wsoap:code="soap:Sender"/>
+        <fault ref="fault:pswErrorFault" wsoap:code="soap:Sender"/>
+        <fault ref="fault:serverFault" wsoap:code="soap:Receiver" />
+
+        <operation ref="tns:verify"
+          wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
+
+    </binding>
+
+    <service name="studentAuthService"
+           interface="tns:studentAuthInterface">
+
+       <endpoint name="studentAuthEndPoint"
+                   binding="tns:studentAuthSOAPBinding"
+                   address ="http://jw.nju.edu.cn:8080/auth"/>
+    </service>
+
+</description>

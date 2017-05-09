@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<description
+    xmlns="http://www.w3.org/ns/wsdl"
+    targetNamespace= "http://jw.nju.edu.cn/wsdl"
+    xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
+    xmlns:tns= "http://jw.nju.edu.cn/wsdl"
+    xmlns:wsoap= "http://www.w3.org/ns/wsdl/soap"
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:wsdlx="http://www.w3.org/2006/01/wsdl-extensions">
+
+  <documentation>学生个人信息管理服务描述文档</documentation>
+
+  <types>
+      <xs:import
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              namespace="http://jw.nju.edu.cn/schema"
+              schemaLocation="../Schema/SystemFault.xsd" />
+      <xs:import
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              namespace="http://jw.nju.edu.cn/schema"
+              schemaLocation="../Schema/Student.xsd" />
+  </types>
+
+  <interface  name = "studentInfoManageInterface" extends="fault:faultInterface">
+
+      <operation name="getInfoById"
+            pattern="http://www.w3.org/ns/wsdl/in-out"
+            style="http://www.w3.org/ns/wsdl/style/iri"
+            wsdlx:safe = "true">
+          <input messageLabel="In" element="tns:学号" />
+          <output messageLabel="Out" element="tns:学生" />
+          <outfault ref="fault:idNotFoundFault" messageLabel="Out"/>
+          <outfault ref="fault:serverFault" messageLabel="Out"/>
+      </operation>
+
+      <operation name="deleteInfoById"
+                 pattern="http://www.w3.org/ns/wsdl/in-out"
+                 style="http://www.w3.org/ns/wsdl/style/iri"
+                 wsdlx:safe = "false">
+          <input messageLabel="In" element="tns:学号" />
+          <output messageLabel="Out" element="tns:学生" />
+          <outfault ref="fault:idNotFoundFault" messageLabel="Out"/>
+          <outfault ref="fault:serverFault" messageLabel="Out"/>
+          <outfault ref="fault:authorityFault" messageLabel="Out"/>
+      </operation>
+
+      <operation name="addInfo"
+                 pattern="http://www.w3.org/ns/wsdl/in-out"
+                 wsdlx:safe = "false">
+          <input messageLabel="In" element="tns:学生" />
+          <output messageLabel="Out" element="tns:学生" />
+          <outfault ref="fault:serverFault" messageLabel="Out"/>
+          <outfault ref="fault:authorityFault" messageLabel="Out"/>
+      </operation>
+
+      <operation name="updateInfo"
+                 pattern="http://www.w3.org/ns/wsdl/in-out"
+                 wsdlx:safe = "false">
+          <input messageLabel="In" element="tns:学生" />
+          <output messageLabel="Out" element="tns:学生" />
+          <outfault ref="fault:idNotFoundFault" messageLabel="Out"/>
+          <outfault ref="fault:authorityFault" messageLabel="Out"/>
+          <outfault ref="fault:serverFault" messageLabel="Out"/>
+          <outfault ref="fault:scoreTypeFault" messageLabel="Out"/>
+          <outfault ref="fault:scoreModifyFault" messageLabel="Out"/>
+      </operation>
+
+  </interface>
+
+  <binding name="studentInfoManageSOAPBinding"
+          interface="tns:studentInfoManageInterface"
+          type="http://www.w3.org/ns/wsdl/soap"
+          wsoap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP/">
+
+      <operation ref="tns:getInfoById"
+        wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+      <operation ref="tns:deleteInfoById"
+        wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+      <operation ref="tns:addInfo"
+        wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
+      <operation ref="tns:updateInfo"
+                 wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
+
+      <fault ref="fault:idNotFindFault" wsoap:code="soap:Sender" wsoap:subcodes="fault:idNotFindFault"/>
+      <fault ref="fault:scoreTypeFault" wsoap:code="soap:Sender" wsoap:subcodes="fault:scoreTypeFault"/>
+      <fault ref="fault:scoreModifyFault" wsoap:code="soap:Sender" wsoap:subcodes="fault:scoreModifyFault"/>
+      <fault ref="fault:authorityFault" wsoap:code="soap:Sender" wsoap:subcodes="fault:authorityFault"/>
+      <fault ref="fault:serverFault" wsoap:code="soap:Receiver" />
+
+  </binding>
+
+  <service name="studentInfoManageService"
+       interface="tns:studentInfoManageInterface">
+
+     <endpoint name="studentInfoManageEndpoint"
+               binding="tns:studentInfoManageSOAPBinding"
+               address ="http://jw.nju.edu.cn:8080/student"/>
+
+  </service>
+</description>

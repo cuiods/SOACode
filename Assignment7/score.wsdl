@@ -4,8 +4,8 @@
 	targetNamespace="http://jw.nju.edu.cn/wsdl"
 	xmlns:tns="http://jw.nju.edu.cn/wsdl"
 	xmlns:fault="http://jw.nju.edu.cn/fault/wsdl"
+	xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
 	xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
-	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:wsdlx="http://www.w3.org/2006/01/wsdl-extensions">
 
 	<documentation>成绩管理系统服务定义</documentation>
@@ -64,7 +64,8 @@
 
 	<binding name="stuScoreBinding"
 		interface="tns:stuScoreInterface"
-		type="http://www.w3.org/ns/wsdl/soap">
+		type="http://www.w3.org/ns/wsdl/soap"
+			 wsoap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP/">
 		<operation ref="tns:addScore"
 			wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response" />
 		<operation ref="tns:getScore"
