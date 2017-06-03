@@ -52,34 +52,98 @@ public class PersonInfo {
         this.description = description;
     }
 
+    /**
+     * Gets the value of the 个人姓名 property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the value of the 个人姓名 property.
+     *
+     * @param name
+     *     allowed object is
+     *     {@link String }
+     *
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the value of the 所在部门 property.
+     *
+     * @return
+     *     possible object is
+     *     {@link Department }
+     *
+     */
     public Department getDepartment() {
         return department;
     }
 
+    /**
+     * Sets the value of the 所在部门 property.
+     *
+     * @param department
+     *     allowed object is
+     *     {@link Department }
+     *
+     */
     public void setDepartment(Department department) {
         this.department = department;
     }
 
+    /**
+     * Gets the value of the 家庭住址 property.
+     *
+     * @return
+     *     possible object is
+     *     {@link Address }
+     *
+     */
     public Address getAddress() {
         return address;
     }
 
+    /**
+     * Sets the value of the 家庭住址 property.
+     *
+     * @param address
+     *     allowed object is
+     *     {@link Address }
+     *
+     */
     public void setAddress(Address address) {
         this.address = address;
     }
 
+    /**
+     * Gets the value of the 个人简介 property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the value of the 个人简介 property.
+     *
+     * @param description
+     *     allowed object is
+     *     {@link String }
+     *
+     */
     public void setDescription(String description) {
         this.description = description;
     }

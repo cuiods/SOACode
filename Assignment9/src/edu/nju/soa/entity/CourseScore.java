@@ -29,11 +29,11 @@ import java.util.List;
 @XmlType(name = "课程成绩类型", namespace = NameSpace.JW_URI, propOrder = {"cid","type","scoreList"})
 public class CourseScore {
 
-    @XmlAttribute(name = "课程编号", namespace = NameSpace.JW_URI)
+    @XmlAttribute(name = "课程编号")
     private String cid;
 
-    @XmlAttribute(name = "成绩性质", namespace = NameSpace.JW_URI)
-    private String type;
+    @XmlAttribute(name = "成绩性质")
+    private ScoreType type;
 
     @XmlElement(name = "成绩", namespace = NameSpace.JW_URI)
     private List<Score> scoreList;
@@ -42,13 +42,13 @@ public class CourseScore {
         scoreList = new ArrayList<>();
     }
 
-    public CourseScore(String cid, String type, List<Score> scoreList) {
+    public CourseScore(String cid, ScoreType type, List<Score> scoreList) {
         this.cid = cid;
         this.type = type;
         this.scoreList = scoreList;
     }
 
-    public CourseScore(String cid, String type, String sid, int score) {
+    public CourseScore(String cid, ScoreType type, String sid, int score) {
         Score scoreEntity = new Score(sid,score);
         scoreList = new ArrayList<>(1);
         scoreList.add(scoreEntity);
@@ -56,7 +56,6 @@ public class CourseScore {
         this.type = type;
     }
 
-    @XmlTransient
     public String getCid() {
         return cid;
     }
@@ -65,12 +64,11 @@ public class CourseScore {
         this.cid = cid;
     }
 
-    @XmlTransient
-    public String getType() {
+    public ScoreType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ScoreType type) {
         this.type = type;
     }
 

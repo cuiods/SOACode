@@ -5,7 +5,6 @@ import edu.nju.soa.entity.Score;
 import edu.nju.soa.entity.ScoreList;
 import edu.nju.soa.entity.StudentList;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,10 +48,12 @@ public class Translator {
     }
 
     public static ScoreList convert(ScoreList scoreList) {
+
         for (CourseScore courseScore: scoreList.getCourseScoreList()) {
             courseScore.setScoreList(courseScore.getScoreList().stream()
                     .filter(score -> score.getScore() < 60).collect(Collectors.toList()));
         }
+
         scoreList.setCourseScoreList(scoreList.getCourseScoreList().stream()
                 .filter(courseScore -> courseScore.getScoreList().size()>0).collect(Collectors.toList()));
         return scoreList;

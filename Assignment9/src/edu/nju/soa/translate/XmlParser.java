@@ -33,6 +33,7 @@ public final class XmlParser {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T unmarshal(InputStream xml, Class<T> clazz) {
         T result = null;
         try {

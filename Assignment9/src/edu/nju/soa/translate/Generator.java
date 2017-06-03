@@ -43,7 +43,7 @@ public final class Generator {
         Random random = new Random();
         List<CourseScore> scoreList = new ArrayList<>(15);
         boolean isPass = true;
-        String[] types = new String[]{"平时成绩","期末成绩","总评成绩"};
+        ScoreType[] types = new ScoreType[]{ScoreType.平时成绩,ScoreType.期末成绩,ScoreType.总评成绩};
         for (int i = 0; i < 5; i++) {
 
             StringBuilder courseId = new StringBuilder(random.nextInt(999999)+"");

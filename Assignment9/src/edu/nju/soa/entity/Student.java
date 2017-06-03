@@ -51,7 +51,6 @@ public class Student {
         this.courseScores = courseScores;
     }
 
-    @XmlTransient
     public String getSid() {
         return sid;
     }
@@ -60,7 +59,6 @@ public class Student {
         this.sid = sid;
     }
 
-    @XmlTransient
     public PersonInfo getPersonInfo() {
         return personInfo;
     }
@@ -69,7 +67,6 @@ public class Student {
         this.personInfo = personInfo;
     }
 
-    @XmlTransient
     public List<CourseScore> getCourseScores() {
         return courseScores;
     }

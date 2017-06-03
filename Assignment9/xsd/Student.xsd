@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://jw.nju.edu.cn/schema"
+		xmlns:tns="http://jw.nju.edu.cn/schema" xmlns:nju="http://www.nju.edu.cn/schema" elementFormDefault="qualified">
+
+    <import namespace="http://www.nju.edu.cn/schema"
+          schemaLocation="PersonInfo.xsd"/>
+    <include schemaLocation="ScoreList.xsd" />
+
+	<element name="学号" type="tns:学号类型"/>
+
+    <simpleType name="学号类型">
+    	<restriction base="string">
+			<length value="9"/>
+    	</restriction>
+    </simpleType>
+
+  	<complexType name="学生类型">
+    	<sequence>
+      		<element ref="tns:学号"/>
+      		<element ref="nju:个人信息"/>
+      		<element ref="tns:课程成绩列表"/>
+    	</sequence>
+  	</complexType>
+
+    <element name="学生" type="tns:学生类型"/>
+</schema>
