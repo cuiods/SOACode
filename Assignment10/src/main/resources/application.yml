@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://106.15.183.234:3306/soa?useUnicode=true&characterEncoding=UTF-8
+    username: soauser
+    password: 123456789
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+endpoints:
+  enabled: false
+logging:
+  file: ./log/StudentManage.log
+---
+spring:
+  profiles: dev
+  jpa:
+    show-sql: true
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://0.0.0.0:3306/soa?useUnicode=true&characterEncoding=UTF-8
+endpoints:
+  enabled: true

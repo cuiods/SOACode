@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.nju.edu.cn/schema"
+	xmlns:tns="http://jw.nju.edu.cn/schema"
+	xmlns:nju="http://www.nju.edu.cn/schema" elementFormDefault="qualified">
+	  <import namespace="http://jw.nju.edu.cn/schema"
+    schemaLocation="Student.xsd" />
+    <import namespace="http://jw.nju.edu.cn/schema"
+    schemaLocation="Course.xsd" />
+
+	<include schemaLocation="PersonInfo.xsd" />
+	<include schemaLocation="CourseList.xsd" />
+
+    <simpleType name="课程性质类型">
+    	<restriction base="string">
+			<enumeration value="必选"/>
+			<enumeration value="指选"/>
+			<enumeration value="选修"/>
+			<enumeration value="通识"/>
+    	</restriction>
+  	</simpleType>
+
+  	<simpleType name="课程名称类型">
+    	<restriction base="string">
+			<maxLength value="16"/>
+    	</restriction>
+  	</simpleType>
+
+  	<simpleType name="课程学分类型">
+    	<restriction base="int">
+			<minInclusive value="1"/>
+			<maxInclusive value="6"/>
+    	</restriction>
+  	</simpleType>
+
+  	<complexType name="课程时间类型">
+    	<sequence>
+      		<element name="开始日期" type="date"/>
+      		<element name="结束日期" type="date"/>
+      		<element name="实上节数" type="integer"/>
+    	</sequence>
+  	</complexType>
+
+  	<complexType name="课程类型">
+    	<all>
+      		<element ref="tns:课程编号"/>
+      		<element name="课程时间" type="nju:课程时间类型"/>
+      		<element name="课程性质" type="nju:课程性质类型"/>
+      		<element name="课程名称" type="nju:课程名称类型"/>
+      		<element name="课程简介" type="string"/>
+      		<element name="课程学分" type="nju:课程学分类型"/>
+    	</all>
+  	</complexType>
+
+  	<complexType name="课程列表类型">
+		    <sequence minOccurs="0" maxOccurs="unbounded">
+				<element name="课程" type="nju:课程类型"/>
+		    </sequence>
+	  </complexType>
+
+	<element name="课程列表" type="nju:课程列表类型"/>
+</schema>

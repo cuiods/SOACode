@@ -1,0 +1,148 @@
+<definitions
+        xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tns="http://jw.nju.edu.cn/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://jw.nju.edu.cn/schema"
+        name="StudentService">
+
+    <documentation>学生个人信息管理服务描述文档</documentation>
+
+    <types>
+        <xsd:schema targetNamespace="http://jw.nju.edu.cn/schema" xmlns:tns="http://jw.nju.edu.cn/schema">
+            <xs:include
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    schemaLocation="../xsd/SystemFault.xsd" />
+        </xsd:schema>
+    </types>
+
+    <message name="IdNotFoundException">
+        <part name="fault" element="tns:NotFoundFault" />
+    </message>
+    <message name="ScoreTypeException">
+        <part name="fault" element="tns:InvalidParamFault" />
+    </message>
+    <message name="ScoreModifyException">
+        <part name="fault" element="tns:InvalidParamFault" />
+    </message>
+    <message name="AuthorityException">
+        <part name="fault" element="tns:AuthFault" />
+    </message>
+    <message name="getInfoById">
+        <part name="parameters" element="tns:getInfoByIdElement" />
+    </message>
+    <message name="getInfoByIdResponse">
+        <part name="parameters" element="tns:学生" />
+    </message>
+    <message name="deleteInfoById">
+        <part name="parameters" element="tns:deleteInfoByIdElement" />
+    </message>
+    <message name="deleteInfoByIdResponse">
+        <part name="parameters" element="tns:学生" />
+    </message>
+    <message name="addInfo">
+        <part name="parameters" element="tns:addInfoElement" />
+    </message>
+    <message name="addInfoResponse">
+        <part name="parameters" element="tns:学生" />
+    </message>
+    <message name="updateInfo">
+        <part name="parameters" element="tns:updateInfoElement" />
+    </message>
+    <message name="updateInfoResponse">
+        <part name="parameters" element="tns:学生" />
+    </message>
+    <portType name="StudentPort">
+        <operation name="getInfoById">
+            <input message="tns:getInfoById" wsam:Action="student/getInfoByIdRequest" />
+            <output message="tns:getInfoByIdResponse" wsam:Action="student/getInfoByIdResponse" />
+            <fault name="IdNotFoundException" message="tns:IdNotFoundException" wsam:Action="student/getInfoById/Fault/IdNotFoundException" />
+        </operation>
+        <operation name="deleteInfoById">
+            <input message="tns:deleteInfoById" wsam:Action="student/deleteInfoByIdRequest" />
+            <output message="tns:deleteInfoByIdResponse" wsam:Action="student/deleteInfoByIdResponse" />
+            <fault name="IdNotFoundException" message="tns:IdNotFoundException" wsam:Action="student/deleteInfoById/Fault/IdNotFoundException" />
+            <fault name="AuthorityException" message="tns:AuthorityException" wsam:Action="student/deleteInfoById/Fault/AuthorityException" />
+        </operation>
+        <operation name="addInfo">
+            <input message="tns:addInfo" wsam:Action="student/addInfoRequest" />
+            <output message="tns:addInfoResponse" wsam:Action="student/addInfoResponse" />
+            <fault name="AuthorityException" message="tns:IdNotFoundException" wsam:Action="student/addInfo/Fault/AuthorityException" />
+        </operation>
+        <operation name="updateInfo">
+            <input message="tns:updateInfo" wsam:Action="student/updateInfoRequest" />
+            <output message="tns:updateInfoResponse" wsam:Action="student/updateInfoResponse" />
+            <fault name="AuthorityException" message="tns:AuthorityException" wsam:Action="student/updateInfo/Fault/AuthorityException" />
+            <fault name="IdNotFoundException" message="tns:IdNotFoundException" wsam:Action="student/updateInfo/Fault/IdNotFoundException" />
+            <fault name="ScoreTypeException" message="tns:ScoreTypeException" wsam:Action="student/updateInfo/Fault/ScoreTypeException" />
+            <fault name="ScoreModifyException" message="tns:ScoreModifyException" wsam:Action="student/updateInfo/Fault/ScoreModifyException" />
+        </operation>
+    </portType>
+    <binding name="StudentPortBinding" type="tns:StudentPort">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="getInfoById">
+            <soap:operation soapAction="student/getInfoById"/>
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="IdNotFoundException">
+                <soap:fault name="IdNotFoundException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="deleteInfoById">
+            <soap:operation soapAction="student/deleteInfoById"/>
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="IdNotFoundException">
+                <soap:fault name="IdNotFoundException" use="literal" />
+            </fault>
+            <fault name="AuthorityException">
+                <soap:fault name="AuthorityException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="addInfo">
+            <soap:operation soapAction="student/addInfo"/>
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="AuthorityException">
+                <soap:fault name="AuthorityException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="updateInfo">
+            <soap:operation soapAction="student/updateInfo"/>
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="AuthorityException">
+                <soap:fault name="AuthorityException" use="literal" />
+            </fault>
+            <fault name="IdNotFoundException">
+                <soap:fault name="IdNotFoundException" use="literal" />
+            </fault>
+            <fault name="ScoreTypeException">
+                <soap:fault name="ScoreTypeException" use="literal" />
+            </fault>
+            <fault name="ScoreModifyException">
+                <soap:fault name="ScoreModifyException" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+    <service name="StudentService">
+        <port name="StudentPort" binding="tns:StudentPortBinding">
+            <soap:address location="http://localhost:8080/soap-api/student" />
+        </port>
+    </service>
+</definitions>

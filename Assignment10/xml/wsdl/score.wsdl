@@ -1,0 +1,133 @@
+<definitions
+        xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tns="http://jw.nju.edu.cn/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://jw.nju.edu.cn/schema"
+        name="ScoreService">
+    <documentation>成绩管理系统服务定义</documentation>
+    <types>
+        <xsd:schema targetNamespace="http://jw.nju.edu.cn/schema" xmlns:tns="http://jw.nju.edu.cn/schema">
+            <xs:include
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    schemaLocation="../xsd/ScoreList.xsd" />
+            <xs:include
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    schemaLocation="../xsd/SystemFault.xsd" />
+        </xsd:schema>
+    </types>
+    <message name="IdNotFoundException">
+        <part name="fault" element="tns:NotFoundFault" />
+    </message>
+    <message name="ScoreTypeException">
+        <part name="fault" element="tns:InvalidParamFault" />
+    </message>
+    <message name="ScoreModifyException">
+        <part name="fault" element="tns:InvalidParamFault" />
+    </message>
+    <message name="AuthorityException">
+        <part name="fault" element="tns:AuthFault" />
+    </message>
+    <message name="addScore">
+        <part name="parameters" element="tns:addScore" />
+    </message>
+    <message name="addScoreResponse">
+        <part name="parameters" element="tns:modifyScore" />
+    </message>
+    <message name="getScore">
+        <part name="parameters" element="tns:学号" />
+    </message>
+    <message name="getScoreResponse">
+        <part name="parameters" element="tns:课程成绩列表" />
+    </message>
+    <message name="modifyScore">
+        <part name="parameters" element="tns:课程成绩列表" />
+    </message>
+    <message name="modifyScoreResponse">
+        <part name="parameters" element="tns:课程成绩列表" />
+    </message>
+    <portType name="Score">
+        <operation name="addScore">
+            <input message="tns:addScore" wsam:Action="score/addScoreRequest" />
+            <output message="tns:addScoreResponse" wsam:Action="score/addScoreResponse" />
+            <fault name="IdNotFoundException" message="tns:IdNotFoundException" wsam:Action="score/addScore/Fault/IdNotFoundException" />
+            <fault name="ScoreTypeException" message="tns:ScoreTypeException" wsam:Action="score/addScore/Fault/ScoreTypeException" />
+            <fault name="ScoreModifyException" message="tns:ScoreModifyException" wsam:Action="score/addScore/Fault/ScoreModifyException" />
+            <fault name="AuthorityException" message="tns:AuthorityException" wsam:Action="score/addScore/Fault/AuthorityException" />
+        </operation>
+        <operation name="getScore">
+            <input message="tns:getScore" wsam:Action="score/getScoreRequest" />
+            <output message="tns:getScoreResponse" wsam:Action="score/getScoreResponse" />
+            <fault name="IdNotFoundException" message="tns:IdNotFoundException" wsam:Action="score/getScore/Fault/IdNotFoundException" />
+        </operation>
+        <operation name="modifyScore">
+            <input message="tns:modifyScore" wsam:Action="score/modifyScoreRequest" />
+            <output message="tns:modifyScoreResponse" wsam:Action="score/modifyScoreResponse" />
+            <fault name="IdNotFoundException" message="tns:IdNotFoundException" wsam:Action="score/modifyScore/Fault/IdNotFoundException" />
+            <fault name="ScoreTypeException" message="tns:ScoreTypeException" wsam:Action="score/modifyScore/Fault/ScoreTypeException" />
+            <fault name="ScoreModifyException" message="tns:ScoreModifyException" wsam:Action="score/modifyScore/Fault/ScoreModifyException" />
+            <fault name="AuthorityException" message="tns:AuthorityException" wsam:Action="score/modifyScore/Fault/AuthorityException" />
+        </operation>
+    </portType>
+    <binding name="ScorePortBinding" type="tns:Score">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="addScore">
+            <soap:operation soapAction="score/addScore"/>
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="IdNotFoundException">
+                <soap:fault name="IdNotFoundException" use="literal" />
+            </fault>
+            <fault name="ScoreTypeException">
+                <soap:fault name="ScoreTypeException" use="literal" />
+            </fault>
+            <fault name="ScoreModifyException">
+                <soap:fault name="ScoreModifyException" use="literal" />
+            </fault>
+            <fault name="AuthorityException">
+                <soap:fault name="AuthorityException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="getScore">
+            <soap:operation soapAction="score/getScore"/>
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="IdNotFoundException">
+                <soap:fault name="IdNotFoundException" use="literal" />
+            </fault>
+        </operation>
+        <operation name="modifyScore">
+            <soap:operation soapAction="score/modifyScore"/>
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="IdNotFoundException">
+                <soap:fault name="IdNotFoundException" use="literal" />
+            </fault>
+            <fault name="ScoreTypeException">
+                <soap:fault name="ScoreTypeException" use="literal" />
+            </fault>
+            <fault name="ScoreModifyException">
+                <soap:fault name="ScoreModifyException" use="literal" />
+            </fault>
+            <fault name="AuthorityException">
+                <soap:fault name="AuthorityException" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+    <service name="ScoreService">
+        <port name="ScorePort" binding="tns:ScorePortBinding">
+            <soap:address location="http://localhost:8080/soap-api/score" />
+        </port>
+    </service>
+</definitions>

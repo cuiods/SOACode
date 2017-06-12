@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://jw.nju.edu.cn/schema"
+  targetNamespace="http://jw.nju.edu.cn/schema"
+  elementFormDefault="qualified">
+	<include schemaLocation="Student.xsd" />
+
+	<element name="验证信息" type="tns:验证类型"/>
+	<element name="认证请求" type="tns:账号认证类型"/>
+
+	<complexType name="验证类型">
+		<sequence>
+			<element name="学号" type="tns:学号类型"/>
+			<element name="权限" type="tns:权限级别"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="账号认证类型">
+		<sequence>
+			<element  name="邮箱" type="string"/>
+			<element  name="密码" type="string"/>
+		</sequence>
+	</complexType>
+
+	<simpleType name="权限级别">
+		<restriction base="string">
+			<enumeration value="老师"/>
+			<enumeration value="研究生"/>
+			<enumeration value="本科生"/>
+		</restriction>
+	</simpleType>
+</schema>
