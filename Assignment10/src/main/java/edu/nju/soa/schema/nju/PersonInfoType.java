@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;all>
- *         &lt;element name="个人姓名" type="{http://www.nju.edu.cn/schema}个人姓名类型"/>
- *         &lt;element name="所在部门" type="{http://www.nju.edu.cn/schema}DepartmentType"/>
- *         &lt;element name="家庭住址" type="{http://www.nju.edu.cn/schema}AddressType"/>
- *         &lt;element name="个人简介" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="name" type="{http://www.nju.edu.cn/schema}个人姓名类型"/>
+ *         &lt;element name="department" type="{http://www.nju.edu.cn/schema}DepartmentType"/>
+ *         &lt;element name="address" type="{http://www.nju.edu.cn/schema}AddressType"/>
+ *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/all>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,14 +35,14 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class PersonInfoType {
 
-    @XmlElement(required = true)
-    protected String 个人姓名;
-    @XmlElement(required = true)
-    protected DepartmentType 所在部门;
-    @XmlElement(required = true)
-    protected AddressType 家庭住址;
-    @XmlElement(required = true)
-    protected String 个人简介;
+    @XmlElement(name = "个人姓名",required = true)
+    protected String name;
+    @XmlElement(name = "所在部门",required = true)
+    protected DepartmentType department;
+    @XmlElement(name = "家庭住址",required = true)
+    protected AddressType address;
+    @XmlElement(name = "个人简介",required = true)
+    protected String description;
 
     /**
      * 获取个人姓名属性的值。
@@ -52,8 +52,8 @@ public class PersonInfoType {
      *     {@link String }
      *     
      */
-    public String get个人姓名() {
-        return 个人姓名;
+    public String getName() {
+        return name;
     }
 
     /**
@@ -64,8 +64,8 @@ public class PersonInfoType {
      *     {@link String }
      *     
      */
-    public void set个人姓名(String value) {
-        this.个人姓名 = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
     /**
@@ -76,8 +76,8 @@ public class PersonInfoType {
      *     {@link DepartmentType }
      *     
      */
-    public DepartmentType get所在部门() {
-        return 所在部门;
+    public DepartmentType getDepartment() {
+        return department;
     }
 
     /**
@@ -88,8 +88,8 @@ public class PersonInfoType {
      *     {@link DepartmentType }
      *     
      */
-    public void set所在部门(DepartmentType value) {
-        this.所在部门 = value;
+    public void setDepartment(DepartmentType value) {
+        this.department = value;
     }
 
     /**
@@ -100,8 +100,8 @@ public class PersonInfoType {
      *     {@link AddressType }
      *     
      */
-    public AddressType get家庭住址() {
-        return 家庭住址;
+    public AddressType getAddress() {
+        return address;
     }
 
     /**
@@ -112,8 +112,8 @@ public class PersonInfoType {
      *     {@link AddressType }
      *     
      */
-    public void set家庭住址(AddressType value) {
-        this.家庭住址 = value;
+    public void setAddress(AddressType value) {
+        this.address = value;
     }
 
     /**
@@ -124,8 +124,8 @@ public class PersonInfoType {
      *     {@link String }
      *     
      */
-    public String get个人简介() {
-        return 个人简介;
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -136,8 +136,8 @@ public class PersonInfoType {
      *     {@link String }
      *     
      */
-    public void set个人简介(String value) {
-        this.个人简介 = value;
+    public void setDescription(String value) {
+        this.description = value;
     }
 
 }

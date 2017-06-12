@@ -14,12 +14,12 @@ import javax.xml.bind.annotation.*;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;all>
- *         &lt;element name="部门性质" type="{http://www.nju.edu.cn/schema}DepartmentTypeType"/>
- *         &lt;element name="部门介绍" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="部门地址" type="{http://www.nju.edu.cn/schema}AddressType"/>
+ *         &lt;element name="type" type="{http://www.nju.edu.cn/schema}DepartmentTypeType"/>
+ *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="address" type="{http://www.nju.edu.cn/schema}AddressType"/>
  *       &lt;/all>
- *       &lt;attribute name="部门编号" type="{http://www.nju.edu.cn/schema}部门编号类型" />
- *       &lt;attribute name="部门名称" type="{http://www.nju.edu.cn/schema}部门名称类型" />
+ *       &lt;attribute name="did" type="{http://www.nju.edu.cn/schema}部门编号类型" />
+ *       &lt;attribute name="dname" type="{http://www.nju.edu.cn/schema}部门名称类型" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -33,16 +33,16 @@ import javax.xml.bind.annotation.*;
 })
 public class DepartmentType {
 
-    @XmlElement(required = true)
-    protected DepartmentTypeType 部门性质;
-    @XmlElement(required = true)
-    protected String 部门介绍;
-    @XmlElement(required = true)
-    protected AddressType 部门地址;
-    @XmlAttribute
-    protected String 部门编号;
-    @XmlAttribute
-    protected String 部门名称;
+    @XmlElement(name = "部门性质",required = true)
+    protected DepartmentTypeType type;
+    @XmlElement(name = "部门介绍",required = true)
+    protected String description;
+    @XmlElement(name = "部门地址",required = true)
+    protected AddressType address;
+    @XmlAttribute(name = "部门编号")
+    protected String did;
+    @XmlAttribute(name = "部门名称")
+    protected String dname;
 
     /**
      * 获取部门性质属性的值。
@@ -52,8 +52,8 @@ public class DepartmentType {
      *     {@link DepartmentTypeType }
      *
      */
-    public DepartmentTypeType get部门性质() {
-        return 部门性质;
+    public DepartmentTypeType getType() {
+        return type;
     }
 
     /**
@@ -64,8 +64,8 @@ public class DepartmentType {
      *     {@link DepartmentTypeType }
      *
      */
-    public void set部门性质(DepartmentTypeType value) {
-        this.部门性质 = value;
+    public void setType(DepartmentTypeType value) {
+        this.type = value;
     }
 
     /**
@@ -76,8 +76,8 @@ public class DepartmentType {
      *     {@link String }
      *
      */
-    public String get部门介绍() {
-        return 部门介绍;
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -88,8 +88,8 @@ public class DepartmentType {
      *     {@link String }
      *
      */
-    public void set部门介绍(String value) {
-        this.部门介绍 = value;
+    public void setDescription(String value) {
+        this.description = value;
     }
 
     /**
@@ -100,8 +100,8 @@ public class DepartmentType {
      *     {@link AddressType }
      *
      */
-    public AddressType get部门地址() {
-        return 部门地址;
+    public AddressType getAddress() {
+        return address;
     }
 
     /**
@@ -112,8 +112,8 @@ public class DepartmentType {
      *     {@link AddressType }
      *     
      */
-    public void set部门地址(AddressType value) {
-        this.部门地址 = value;
+    public void setAddress(AddressType value) {
+        this.address = value;
     }
 
     /**
@@ -124,8 +124,8 @@ public class DepartmentType {
      *     {@link String }
      *     
      */
-    public String get部门编号() {
-        return 部门编号;
+    public String getDid() {
+        return did;
     }
 
     /**
@@ -136,8 +136,8 @@ public class DepartmentType {
      *     {@link String }
      *     
      */
-    public void set部门编号(String value) {
-        this.部门编号 = value;
+    public void setDid(String value) {
+        this.did = value;
     }
 
     /**
@@ -148,8 +148,8 @@ public class DepartmentType {
      *     {@link String }
      *     
      */
-    public String get部门名称() {
-        return 部门名称;
+    public String getDname() {
+        return dname;
     }
 
     /**
@@ -160,8 +160,8 @@ public class DepartmentType {
      *     {@link String }
      *     
      */
-    public void set部门名称(String value) {
-        this.部门名称 = value;
+    public void setDname(String value) {
+        this.dname = value;
     }
 
 }
