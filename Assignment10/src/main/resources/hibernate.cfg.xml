@@ -9,5 +9,12 @@
         <property name="current_session_context_class">thread</property>
         <!--<property name="packagesToScan" >entity</property>-->
         <property name="hbm2ddl.auto">update</property>
+        <mapping class="edu.nju.soa.entity.AddressEntity"/>
+        <mapping class="edu.nju.soa.entity.CourseScoreEntity"/>
+        <mapping class="edu.nju.soa.entity.DepartmentEntity"/>
+        <mapping class="edu.nju.soa.entity.PersonInfoEntity"/>
+        <mapping class="edu.nju.soa.entity.ScoreListEntity"/>
+        <mapping class="edu.nju.soa.entity.StudentEntity"/>
+        <mapping class="edu.nju.soa.entity.UserEntity"/>
     </session-factory>
 </hibernate-configuration>
