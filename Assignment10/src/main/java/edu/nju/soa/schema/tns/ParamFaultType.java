@@ -1,6 +1,9 @@
 
 package edu.nju.soa.schema.tns;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.xml.bind.annotation.*;
 import java.math.BigInteger;
 
@@ -30,6 +33,8 @@ import java.math.BigInteger;
 @XmlType(name = "ParamFaultType", propOrder = {
 
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class ParamFaultType {
 
     @XmlElement(name = "ParamIndex", required = true)

@@ -2,6 +2,7 @@
 package edu.nju.soa.schema.tns;
 
 import javax.xml.ws.WebFault;
+import java.math.BigInteger;
 
 
 /**
@@ -29,6 +30,11 @@ public class ScoreModifyException
     public ScoreModifyException(String message, ParamFaultType faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
+    }
+
+    public ScoreModifyException(int index, String info, String indexName) {
+        super(info);
+        faultInfo = new ParamFaultType(new BigInteger(index+""),info, indexName);
     }
 
     /**

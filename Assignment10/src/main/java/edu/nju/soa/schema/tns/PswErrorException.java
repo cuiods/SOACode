@@ -1,6 +1,9 @@
 
 package edu.nju.soa.schema.tns;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.xml.ws.WebFault;
 
 
@@ -20,6 +23,11 @@ public class PswErrorException
      * 
      */
     private AuthFaultType faultInfo;
+
+    public PswErrorException(String reason,String id,String message) {
+        super(message);
+        faultInfo = new AuthFaultType(reason,id);
+    }
 
     /**
      * 

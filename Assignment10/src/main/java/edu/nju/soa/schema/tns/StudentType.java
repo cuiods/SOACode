@@ -1,12 +1,17 @@
 
 package edu.nju.soa.schema.tns;
 
+import edu.nju.soa.entity.StudentEntity;
 import edu.nju.soa.schema.nju.PersonInfoType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.stream.Collectors;
 
 
 /**
@@ -36,6 +41,8 @@ import javax.xml.bind.annotation.XmlType;
     "personInfo",
     "courseScoreListType"
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentType {
 
     @XmlElement(name = "学号" ,required = true)
@@ -44,6 +51,17 @@ public class StudentType {
     protected PersonInfoType personInfo;
     @XmlElement(name = "课程成绩列表",required = true)
     protected CourseScoreListType courseScoreListType;
+
+    public StudentType(StudentEntity studentEntity) {
+        if (studentEntity==null) return;
+        BeanUtils.copyProperties(studentEntity,this,"personInfo","courseScoreListType");
+        personInfo = new PersonInfoType(studentEntity.getPersonInfo());
+        courseScoreListType = new CourseScoreListType();
+        if (studentEntity.getScoreList()!=null) {
+            courseScoreListType.courseScores = studentEntity.getScoreList().stream()
+                    .map(CourseScore::new).collect(Collectors.toList());
+        }
+    }
 
     /**
      * 获取学号属性的值。

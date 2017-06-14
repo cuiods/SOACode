@@ -66,4 +66,7 @@ public class CourseScoreListType {
         return this.courseScores;
     }
 
+    public void setCourseScores(List<CourseScore> courseScores) {
+        this.courseScores = courseScores;
+    }
 }

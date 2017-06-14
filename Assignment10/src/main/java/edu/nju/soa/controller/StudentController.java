@@ -1,10 +1,15 @@
 package edu.nju.soa.controller;
 
+import edu.nju.soa.dao.StudentDao;
 import edu.nju.soa.definition.StudentPort;
+import edu.nju.soa.entity.StudentEntity;
 import edu.nju.soa.schema.tns.*;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.transaction.Transactional;
 
 /**
  * Created by cuihao on 2017-06-12.
@@ -12,7 +17,12 @@ import javax.jws.soap.SOAPBinding;
  */
 @WebService(name = "StudentPort", targetNamespace = "http://jw.nju.edu.cn/schema")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
+@Component
 public class StudentController implements StudentPort {
+
+    @Resource
+    private StudentDao studentDao;
+
     /**
      * get student info
      *
@@ -21,8 +31,12 @@ public class StudentController implements StudentPort {
      * @throws IdNotFoundException cannot find id
      */
     @Override
+    @Transactional
     public StudentType getInfoById(GetInfoByIdType parameters) throws IdNotFoundException {
-        return null;
+        StudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
+        if (studentEntity == null)
+            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getSid(),"Cannot find student");
+        return new StudentType(studentEntity);
     }
 
     /**
@@ -35,7 +49,11 @@ public class StudentController implements StudentPort {
      */
     @Override
     public StudentType deleteInfoById(DeleteInfoByIdType parameters) throws AuthorityException, IdNotFoundException {
-        return null;
+        StudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
+        if (studentEntity == null)
+            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getSid(),"Cannot find student");
+        studentDao.deleteById(studentEntity.getId());
+        return new StudentType(studentEntity);
     }
 
     /**
@@ -47,7 +65,7 @@ public class StudentController implements StudentPort {
      */
     @Override
     public StudentType addInfo(AddInfoType parameters) throws IdNotFoundException {
-        return null;
+        return new StudentType(studentDao.save(new StudentEntity(parameters.getStudent())));
     }
 
     /**
@@ -61,7 +79,11 @@ public class StudentController implements StudentPort {
      * @throws ScoreModifyException score modify error
      */
     @Override
-    public StudentType updateInfo(StudentType parameters) throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
-        return null;
+    public StudentType updateInfo(StudentType parameters)
+            throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
+        StudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
+        if (studentEntity == null)
+            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getSid(),"Cannot find student");
+        return new StudentType(studentDao.update(new StudentEntity(parameters)));
     }
 }

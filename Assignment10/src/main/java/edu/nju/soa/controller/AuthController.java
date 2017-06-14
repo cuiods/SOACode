@@ -1,11 +1,12 @@
 package edu.nju.soa.controller;
 
+import edu.nju.soa.dao.UserDao;
 import edu.nju.soa.definition.MyAuth;
-import edu.nju.soa.schema.tns.AuthVerifyType;
-import edu.nju.soa.schema.tns.IdNotFoundException;
-import edu.nju.soa.schema.tns.PswErrorException;
-import edu.nju.soa.schema.tns.VerifyType;
+import edu.nju.soa.entity.UserEntity;
+import edu.nju.soa.schema.tns.*;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
@@ -15,7 +16,12 @@ import javax.jws.soap.SOAPBinding;
  */
 @WebService(name = "MyAuth", targetNamespace = "http://jw.nju.edu.cn/schema")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
+@Component
 public class AuthController implements MyAuth {
+
+    @Resource
+    private UserDao userDao;
+
     /**
      * Auth controller
      *
@@ -26,6 +32,13 @@ public class AuthController implements MyAuth {
      */
     @Override
     public VerifyType verify(AuthVerifyType parameters) throws IdNotFoundException, PswErrorException {
-        return null;
+        UserEntity userEntity = userDao.findByEmail(parameters.getEmail());
+        if (userEntity == null) {
+            throw new IdNotFoundException(NotFoundReasonType.学号不存在,userEntity.getEmail(),"cannot find email");
+        }
+        if (!userEntity.getPassword().equals(parameters.getPassword())) {
+            throw new PswErrorException("Error password",parameters.getEmail(),"Error password");
+        }
+        return new VerifyType(userEntity);
     }
 }

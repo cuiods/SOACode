@@ -21,6 +21,11 @@ public class IdNotFoundException
      */
     private NotFoundType faultInfo;
 
+    public IdNotFoundException(NotFoundReasonType reasonType, String notFoundId, String massage) {
+        super(massage);
+        faultInfo = new NotFoundType(reasonType,notFoundId);
+    }
+
     /**
      *
      * @param faultInfo

@@ -1,9 +1,15 @@
 
 package edu.nju.soa.schema.tns;
 
+import edu.nju.soa.entity.ScoreListEntity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -31,6 +37,8 @@ import java.util.List;
 @XmlType(name = "课程成绩类型", propOrder = {
     "courseScoreTypes"
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourseScore {
 
     @XmlElement(name = "成绩")
@@ -39,6 +47,15 @@ public class CourseScore {
     protected String cid;
     @XmlAttribute(name = "成绩性质")
     protected ScoreType scoreType;
+
+    public CourseScore(ScoreListEntity scoreListEntity) {
+        if (scoreListEntity == null) return;
+        BeanUtils.copyProperties(scoreListEntity,this,"courseScoreTypes");
+        if (scoreListEntity.getCourseScoreEntities()!=null) {
+            courseScoreTypes = scoreListEntity.getCourseScoreEntities().stream()
+                    .map(CourseScoreType::new).collect(Collectors.toList());
+        }
+    }
 
     /**
      * Gets the value of the courseScoreTypes property.

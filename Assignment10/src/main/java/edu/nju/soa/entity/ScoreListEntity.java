@@ -1,10 +1,15 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.schema.tns.CourseScore;
 import edu.nju.soa.schema.tns.ScoreType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by cuihao on 2017-06-13.
@@ -12,11 +17,22 @@ import java.util.List;
  */
 @Entity
 @Table(name = "scoreList")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ScoreListEntity {
     private int id;
     private String cid;
     private ScoreType scoreType;
     private List<CourseScoreEntity> courseScoreEntities;
+
+    public ScoreListEntity(CourseScore courseScore) {
+        if (courseScore==null) return;
+        BeanUtils.copyProperties(courseScore,this,"courseScoreEntities");
+        if (courseScore.getCourseScoreTypes()!=null) {
+            courseScoreEntities = courseScore.getCourseScoreTypes().stream()
+                    .map(CourseScoreEntity::new).collect(Collectors.toList());
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +45,7 @@ public class ScoreListEntity {
         this.id = id;
     }
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "course_id")
     public List<CourseScoreEntity> getCourseScoreEntities() {
         return courseScoreEntities;

@@ -1,6 +1,11 @@
 
 package edu.nju.soa.schema.nju;
 
+import edu.nju.soa.entity.AddressEntity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -38,6 +43,8 @@ import javax.xml.bind.annotation.XmlType;
     "block",
     "number"
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddressType {
 
     @XmlElement(name = "国家",required = true)
@@ -50,6 +57,11 @@ public class AddressType {
     protected String block;
     @XmlElement(name = "号", required = true)
     protected String number;
+
+    public AddressType(AddressEntity addressEntity) {
+        if (addressEntity == null) return;
+        BeanUtils.copyProperties(addressEntity,this);
+    }
 
     /**
      * 获取国家属性的值。

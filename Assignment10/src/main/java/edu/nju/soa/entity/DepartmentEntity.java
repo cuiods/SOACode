@@ -1,6 +1,10 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.schema.nju.DepartmentType;
 import edu.nju.soa.schema.nju.DepartmentTypeType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +15,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "department")
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentEntity {
     private int id;
     private DepartmentTypeType type;
@@ -18,6 +24,12 @@ public class DepartmentEntity {
     private String did;
     private String dname;
     private AddressEntity address;
+
+    public DepartmentEntity(DepartmentType department) {
+        if (department == null) return;
+        BeanUtils.copyProperties(department,this,"address");
+        address = new AddressEntity(department.getAddress());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

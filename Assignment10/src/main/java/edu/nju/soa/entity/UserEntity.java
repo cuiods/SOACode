@@ -1,6 +1,8 @@
 package edu.nju.soa.entity;
 
 import edu.nju.soa.schema.tns.AuthType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +12,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     private int id;
     private String email;

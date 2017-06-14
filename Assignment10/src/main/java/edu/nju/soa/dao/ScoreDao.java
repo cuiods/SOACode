@@ -2,7 +2,7 @@ package edu.nju.soa.dao;
 
 import edu.nju.soa.entity.CourseScoreEntity;
 import edu.nju.soa.entity.ScoreListEntity;
-import edu.nju.soa.schema.tns.CourseScoreType;
+import edu.nju.soa.schema.tns.ScoreType;
 
 import java.util.List;
 
@@ -16,9 +16,12 @@ public interface ScoreDao {
 
     ScoreListEntity save(ScoreListEntity scoreListEntity);
 
+    ScoreListEntity update(ScoreListEntity scoreListEntity);
+
     void delete(int id);
 
-    ScoreListEntity findByCidAndType(String cid, CourseScoreType type);
+    ScoreListEntity findByCidAndType(String cid, ScoreType type);
 
     List<CourseScoreEntity> findByEntityAndSid(ScoreListEntity scoreListEntity, int sid);
+
 }

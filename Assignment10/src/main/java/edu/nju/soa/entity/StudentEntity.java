@@ -1,7 +1,13 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.schema.tns.StudentType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by cuihao on 2017-06-13.
@@ -9,11 +15,23 @@ import java.util.List;
  */
 @Entity
 @Table(name = "student")
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentEntity {
     private int id;
     private String sid;
     private PersonInfoEntity personInfo;
     private List<ScoreListEntity> scoreList;
+
+    public StudentEntity(StudentType studentType) {
+        if (studentType == null) return;
+        BeanUtils.copyProperties(studentType,this,"personInfo","scoreList");
+        personInfo = new PersonInfoEntity(studentType.getPersonInfo());
+        if (studentType.getCourseScoreListType().getCourseScores()!=null) {
+            scoreList = studentType.getCourseScoreListType().getCourseScores().stream()
+                    .map(ScoreListEntity::new).collect(Collectors.toList());
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

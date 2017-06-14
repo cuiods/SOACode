@@ -1,5 +1,10 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.schema.nju.PersonInfoType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.*;
 
 /**
@@ -8,12 +13,21 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "personInfo")
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonInfoEntity {
     private int id;
     private String name;
     private String description;
     private DepartmentEntity department;
     private AddressEntity address;
+
+    public PersonInfoEntity(PersonInfoType personInfoType) {
+        if (personInfoType==null) return;
+        BeanUtils.copyProperties(personInfoType,this,"department","address");
+        department = new DepartmentEntity(personInfoType.getDepartment());
+        address = new AddressEntity(personInfoType.getAddress());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

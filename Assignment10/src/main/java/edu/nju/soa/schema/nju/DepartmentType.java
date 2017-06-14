@@ -1,6 +1,11 @@
 
 package edu.nju.soa.schema.nju;
 
+import edu.nju.soa.entity.DepartmentEntity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.xml.bind.annotation.*;
 
 
@@ -31,6 +36,8 @@ import javax.xml.bind.annotation.*;
 @XmlType(name = "\u90e8\u95e8\u7c7b\u578b", propOrder = {
 
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentType {
 
     @XmlElement(name = "部门性质",required = true)
@@ -43,6 +50,12 @@ public class DepartmentType {
     protected String did;
     @XmlAttribute(name = "部门名称")
     protected String dname;
+
+    public DepartmentType(DepartmentEntity departmentEntity) {
+        if (departmentEntity == null) return;
+        BeanUtils.copyProperties(departmentEntity,this,"address");
+        address = new AddressType(departmentEntity.getAddress());
+    }
 
     /**
      * 获取部门性质属性的值。

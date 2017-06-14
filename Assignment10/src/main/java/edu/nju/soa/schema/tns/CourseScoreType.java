@@ -1,6 +1,11 @@
 
 package edu.nju.soa.schema.tns;
 
+import edu.nju.soa.entity.CourseScoreEntity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -32,12 +37,19 @@ import javax.xml.bind.annotation.XmlType;
     "sid",
     "score"
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourseScoreType {
 
     @XmlElement(name = "sid" ,required = true)
     protected String sid;
     @XmlElement(name = "得分")
     protected int score;
+
+    public CourseScoreType(CourseScoreEntity entity) {
+        if (entity == null) return;
+        BeanUtils.copyProperties(entity,this);
+    }
 
     /**
      * 获取学号属性的值。

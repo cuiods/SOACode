@@ -1,5 +1,10 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.schema.tns.CourseScoreType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.*;
 
 /**
@@ -8,11 +13,18 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "courseScore")
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourseScoreEntity {
     private int id;
     private int sid;
     private int score;
     private ScoreListEntity scoreListEntity;
+
+    public CourseScoreEntity(CourseScoreType courseScoreType) {
+        if (courseScoreType == null) return;
+        BeanUtils.copyProperties(courseScoreType,this);
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

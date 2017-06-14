@@ -1,5 +1,10 @@
 package edu.nju.soa.entity;
 
+import edu.nju.soa.schema.nju.AddressType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +13,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "address")
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddressEntity {
     private int id;
     private String country;
@@ -15,6 +22,11 @@ public class AddressEntity {
     private String district;
     private String block;
     private String number;
+
+    public AddressEntity(AddressType addressType) {
+        if (addressType == null) return;
+        BeanUtils.copyProperties(addressType,this);
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,8 @@ public interface StudentDao {
 
     StudentEntity save(StudentEntity studentEntity);
 
+    StudentEntity update(StudentEntity studentEntity);
+
     void deleteById(int id);
 
     void deleteBySid(String sid);

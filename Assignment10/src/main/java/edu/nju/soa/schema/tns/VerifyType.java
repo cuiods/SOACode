@@ -1,6 +1,11 @@
 
 package edu.nju.soa.schema.tns;
 
+import edu.nju.soa.entity.UserEntity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -32,12 +37,19 @@ import javax.xml.bind.annotation.XmlType;
     "sid",
     "authType"
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class VerifyType {
 
     @XmlElement(name = "学号",required = true)
     protected String sid;
     @XmlElement(name = "权限",required = true)
     protected AuthType authType;
+
+    public VerifyType(UserEntity userEntity) {
+        if (userEntity == null) return;
+        BeanUtils.copyProperties(userEntity,this);
+    }
 
     /**
      * 获取学号属性的值。

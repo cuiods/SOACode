@@ -1,6 +1,11 @@
 
 package edu.nju.soa.schema.nju;
 
+import edu.nju.soa.entity.PersonInfoEntity;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -33,6 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "\u4e2a\u4eba\u4fe1\u606f\u7c7b\u578b", propOrder = {
 
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonInfoType {
 
     @XmlElement(name = "个人姓名",required = true)
@@ -43,6 +50,13 @@ public class PersonInfoType {
     protected AddressType address;
     @XmlElement(name = "个人简介",required = true)
     protected String description;
+
+    public PersonInfoType(PersonInfoEntity personInfoEntity) {
+        if (personInfoEntity==null) return;
+        BeanUtils.copyProperties(personInfoEntity,this,"department","address");
+        department = new DepartmentType(personInfoEntity.getDepartment());
+        address = new AddressType(personInfoEntity.getAddress());
+    }
 
     /**
      * 获取个人姓名属性的值。

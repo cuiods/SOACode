@@ -1,6 +1,9 @@
 
 package edu.nju.soa.schema.tns;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -32,6 +35,8 @@ import javax.xml.bind.annotation.XmlType;
     "notFoundReason",
     "notFoundId"
 })
+@AllArgsConstructor
+@NoArgsConstructor
 public class NotFoundType {
 
     @XmlElement(name = "NotFoundReason", required = true)
