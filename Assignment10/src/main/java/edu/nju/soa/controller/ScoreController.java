@@ -5,6 +5,7 @@ import edu.nju.soa.dao.StudentDao;
 import edu.nju.soa.definition.Score;
 import edu.nju.soa.entity.CourseScoreEntity;
 import edu.nju.soa.entity.ScoreListEntity;
+import edu.nju.soa.entity.StudentEntity;
 import edu.nju.soa.schema.tns.*;
 import org.springframework.stereotype.Component;
 
@@ -61,10 +62,10 @@ public class ScoreController implements Score {
     @Transactional
     public CourseScoreListType getScore(String parameters) throws IdNotFoundException {
         CourseScoreListType courseScoreListType = new CourseScoreListType();
-        List<ScoreListEntity> courseScoreEntities = studentDao.findById(Integer.parseInt(parameters)).getScoreList();
-        if (courseScoreEntities==null || courseScoreEntities.size()==0)
+        StudentEntity studentEntity = studentDao.findBySid(parameters);
+        if (studentEntity==null)
             throw new IdNotFoundException(NotFoundReasonType.未找到输入学号的成绩,parameters,"No scores found");
-        courseScoreListType.setCourseScores(courseScoreEntities.stream().map(CourseScore::new)
+        courseScoreListType.setCourseScores(studentEntity.getScoreList().stream().map(CourseScore::new)
                 .collect(Collectors.toList()));
         return courseScoreListType;
     }
@@ -79,6 +80,7 @@ public class ScoreController implements Score {
      * @throws AuthorityException   do not have authority
      */
     @Override
+    @Transactional
     public void modifyScore(Holder<CourseScoreListType> parameters)
             throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
         List<CourseScore> courseScores = parameters.value.getCourseScores();

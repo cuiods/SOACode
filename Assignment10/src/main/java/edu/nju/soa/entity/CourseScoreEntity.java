@@ -3,6 +3,7 @@ package edu.nju.soa.entity;
 import edu.nju.soa.schema.tns.CourseScoreType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Table(name = "courseScore")
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CourseScoreEntity {
     private int id;
     private int sid;
@@ -24,6 +26,7 @@ public class CourseScoreEntity {
     public CourseScoreEntity(CourseScoreType courseScoreType) {
         if (courseScoreType == null) return;
         BeanUtils.copyProperties(courseScoreType,this);
+        sid = Integer.parseInt(courseScoreType.getSid());
     }
 
     @Id

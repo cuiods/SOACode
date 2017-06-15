@@ -4,6 +4,7 @@ import edu.nju.soa.schema.tns.CourseScore;
 import edu.nju.soa.schema.tns.ScoreType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Table(name = "scoreList")
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ScoreListEntity {
     private int id;
     private String cid;

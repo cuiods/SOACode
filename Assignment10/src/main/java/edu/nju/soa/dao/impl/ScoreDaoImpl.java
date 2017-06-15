@@ -1,6 +1,7 @@
 package edu.nju.soa.dao.impl;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import edu.nju.soa.dao.ScoreDao;
 import edu.nju.soa.dao.StudentDao;
 import edu.nju.soa.entity.CourseScoreEntity;
@@ -42,13 +43,15 @@ public class ScoreDaoImpl implements ScoreDao {
         if (result==null) {
             result = scoreListRepository.save(scoreListEntity);
         }
+        List<CourseScoreEntity> courseScoreEntityList = Lists.newArrayList();
         if (courseScoreEntities!=null && !courseScoreEntities.isEmpty()) {
             for (CourseScoreEntity entity :
                     courseScoreEntities) {
                 entity.setScoreListEntity(result);
-                courseScoreRepository.save(entity);
+                courseScoreEntityList.add(courseScoreRepository.save(entity));
             }
         }
+        result.setCourseScoreEntities(courseScoreEntityList);
         return result;
     }
 

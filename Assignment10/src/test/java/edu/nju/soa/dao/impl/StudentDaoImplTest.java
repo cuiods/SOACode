@@ -70,7 +70,7 @@ public class StudentDaoImplTest extends BaseTest {
 
     @Test
     public void deleteById() throws Exception {
-        studentDao.deleteById(2);
+        studentDao.deleteById(4);
     }
 
     @Test

@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 @WebService(name = "StudentPort", targetNamespace = "http://jw.nju.edu.cn/schema")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @Component
+@Transactional
 public class StudentController implements StudentPort {
 
     @Resource
@@ -31,7 +32,6 @@ public class StudentController implements StudentPort {
      * @throws IdNotFoundException cannot find id
      */
     @Override
-    @Transactional
     public StudentType getInfoById(GetInfoByIdType parameters) throws IdNotFoundException {
         StudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
         if (studentEntity == null)

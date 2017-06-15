@@ -23,8 +23,9 @@ public class ScoreDaoImplTest extends BaseTest {
     private ScoreDao scoreDao;
 
     @Test
+    @Transactional
     public void findById() throws Exception {
-        System.out.println(scoreDao.findById(7));
+        System.out.println(scoreDao.findById(141250211).getCourseScoreEntities().size());
     }
 
     @Test

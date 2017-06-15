@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 @AllArgsConstructor
 public class CourseScoreType {
 
-    @XmlElement(name = "sid" ,required = true)
+    @XmlElement(name = "学号" ,required = true)
     protected String sid;
     @XmlElement(name = "得分")
     protected int score;
@@ -49,6 +49,7 @@ public class CourseScoreType {
     public CourseScoreType(CourseScoreEntity entity) {
         if (entity == null) return;
         BeanUtils.copyProperties(entity,this);
+        sid = entity.getSid()+"";
     }
 
     /**

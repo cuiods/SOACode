@@ -3,6 +3,7 @@ package edu.nju.soa.entity;
 import edu.nju.soa.schema.tns.StudentType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Table(name = "student")
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class StudentEntity {
     private int id;
     private String sid;
@@ -54,7 +56,7 @@ public class StudentEntity {
         this.personInfo = personInfo;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "stu_course", schema = "soa",
             joinColumns = @JoinColumn(name = "sid", referencedColumnName = "id",nullable = false),
             inverseJoinColumns = @JoinColumn(name = "cid", referencedColumnName = "id",nullable = false))
