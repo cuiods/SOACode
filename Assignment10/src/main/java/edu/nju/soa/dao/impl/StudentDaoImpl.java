@@ -2,10 +2,7 @@ package edu.nju.soa.dao.impl;
 
 import edu.nju.soa.dao.ScoreDao;
 import edu.nju.soa.dao.StudentDao;
-import edu.nju.soa.entity.DepartmentEntity;
-import edu.nju.soa.entity.PersonInfoEntity;
-import edu.nju.soa.entity.ScoreListEntity;
-import edu.nju.soa.entity.StudentEntity;
+import edu.nju.soa.entity.*;
 import edu.nju.soa.repository.AddressRepository;
 import edu.nju.soa.repository.DepartmentRepository;
 import edu.nju.soa.repository.PersonInfoRepository;

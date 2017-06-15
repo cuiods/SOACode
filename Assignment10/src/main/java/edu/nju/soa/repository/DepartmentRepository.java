@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Department repo definition
  */
 public interface DepartmentRepository extends JpaRepository<DepartmentEntity, Integer>{
+    DepartmentEntity findByDid(String did);
 }

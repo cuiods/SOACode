@@ -49,6 +49,7 @@ public class VerifyType {
     public VerifyType(UserEntity userEntity) {
         if (userEntity == null) return;
         BeanUtils.copyProperties(userEntity,this);
+        sid = userEntity.getEmail();
     }
 
     /**

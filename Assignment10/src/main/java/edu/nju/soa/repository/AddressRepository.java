@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Address entity repo definition
  */
 public interface AddressRepository extends JpaRepository<AddressEntity,Integer>{
+    AddressEntity findByCountryAndProvinceAndDistrictAndBlockAndNumber(String country, String province, String district, String block, String number);
 }

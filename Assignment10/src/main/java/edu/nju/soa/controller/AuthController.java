@@ -34,7 +34,7 @@ public class AuthController implements MyAuth {
     public VerifyType verify(AuthVerifyType parameters) throws IdNotFoundException, PswErrorException {
         UserEntity userEntity = userDao.findByEmail(parameters.getEmail());
         if (userEntity == null) {
-            throw new IdNotFoundException(NotFoundReasonType.学号不存在,userEntity.getEmail(),"cannot find email");
+            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getEmail(),"cannot find email");
         }
         if (!userEntity.getPassword().equals(parameters.getPassword())) {
             throw new PswErrorException("Error password",parameters.getEmail(),"Error password");
