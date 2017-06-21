@@ -1,8 +1,10 @@
 package edu.nju.soa.config;
 
+import com.google.common.collect.Lists;
 import edu.nju.soa.controller.AuthController;
 import edu.nju.soa.controller.ScoreController;
 import edu.nju.soa.controller.StudentController;
+import edu.nju.soa.handler.AuthHandler;
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.jaxws.EndpointImpl;
@@ -52,6 +54,7 @@ public class WebServiceConfig {
     @Bean(name = "scoreEndpoint")
     public Endpoint endpoint2() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), scoreController);
+        endpoint.setHandlers(Lists.newArrayList(new AuthHandler()));
         endpoint.publish("/score");
         return endpoint;
     }
@@ -59,6 +62,7 @@ public class WebServiceConfig {
     @Bean(name = "studentEndpoint")
     public Endpoint endpoint3() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), studentController);
+        endpoint.setHandlers(Lists.newArrayList(new AuthHandler()));
         endpoint.publish("/student");
         return endpoint;
     }
