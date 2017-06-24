@@ -1,5 +1,6 @@
 package edu.nju.soa.controller;
 
+import com.google.common.collect.Lists;
 import edu.nju.soa.dao.ScoreDao;
 import edu.nju.soa.dao.StudentDao;
 import edu.nju.soa.definition.Score;
@@ -45,10 +46,19 @@ public class ScoreController implements Score {
             throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
         List<CourseScore> courseScores = courseScoreListTypeHolder.value.getCourseScores();
         validate(courseScores);
-        courseScoreListTypeHolder.value.setCourseScores(courseScores.stream()
-                .map(ScoreListEntity::new)
-                .map(scoreListEntity -> scoreDao.save(scoreListEntity))
-                .map(CourseScore::new).collect(Collectors.toList()));
+        for (CourseScore courseScore: courseScores) {
+            for (CourseScoreType courseScoreType : courseScore.getCourseScoreTypes()) {
+                StudentEntity studentEntity = studentDao.findBySid(courseScoreType.getSid());
+                if (studentEntity == null)
+                    throw new IdNotFoundException(NotFoundReasonType.学号不存在, courseScoreType.getSid(),"学号不存在");
+                CourseScore resultCourseScore = new CourseScore();
+                resultCourseScore.setCid(courseScore.getCid());
+                resultCourseScore.setScoreType(courseScore.getScoreType());
+                resultCourseScore.setCourseScoreTypes(Lists.newArrayList(courseScoreType));
+                studentEntity.getScoreList().add(new ScoreListEntity(resultCourseScore));
+                studentDao.update(studentEntity);
+            }
+        }
     }
 
     /**
@@ -65,8 +75,7 @@ public class ScoreController implements Score {
         StudentEntity studentEntity = studentDao.findBySid(parameters);
         if (studentEntity==null)
             throw new IdNotFoundException(NotFoundReasonType.未找到输入学号的成绩,parameters,"No scores found");
-        courseScoreListType.setCourseScores(studentEntity.getScoreList().stream().map(CourseScore::new)
-                .collect(Collectors.toList()));
+        courseScoreListType.setCourseScores(studentEntity.getScoreList().stream().map(CourseScore::new).collect(Collectors.toList()));
         return courseScoreListType;
     }
 
@@ -91,7 +100,26 @@ public class ScoreController implements Score {
                 .map(CourseScore::new).collect(Collectors.toList()));
     }
 
-    private void validate(List<CourseScore> courseScores) throws ScoreModifyException,ScoreModifyException {
+    /**
+     * delete score
+     *
+     * @param parameters score list
+     * @throws IdNotFoundException  cannot find id
+     * @throws ScoreTypeException   score type error
+     * @throws ScoreModifyException score modify error
+     * @throws AuthorityException   do not have authority
+     */
+    @Override
+    @Transactional
+    public void deleteScore(Holder<CourseScoreListType> parameters)
+            throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
+        CourseScoreListType courseScoreListType = parameters.value;
+        courseScoreListType.getCourseScores().forEach(courseScore -> {
+            scoreDao.delete(new ScoreListEntity(courseScore));
+        });
+    }
+
+    private void validate(List<CourseScore> courseScores) throws ScoreModifyException {
         for (CourseScore courseScore : courseScores) {
             for (CourseScoreType courseScoreType : courseScore.getCourseScoreTypes()) {
                 if (courseScoreType.getScore() > 100 || courseScoreType.getScore() < 0)

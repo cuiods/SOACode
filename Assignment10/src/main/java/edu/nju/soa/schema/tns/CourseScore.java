@@ -134,4 +134,7 @@ public class CourseScore {
         this.scoreType = value;
     }
 
+    public void setCourseScoreTypes(List<CourseScoreType> courseScoreTypes) {
+        this.courseScoreTypes = courseScoreTypes;
+    }
 }

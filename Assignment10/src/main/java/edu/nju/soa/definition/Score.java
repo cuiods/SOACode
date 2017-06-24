@@ -85,4 +85,26 @@ public interface Score {
         throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException
     ;
 
+    /**
+     * delete score
+     * @param parameters  score list
+     * @throws IdNotFoundException cannot find id
+     * @throws ScoreTypeException score type error
+     * @throws ScoreModifyException score modify error
+     * @throws AuthorityException do not have authority
+     */
+    @WebMethod(action = "score/deleteScore")
+    @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
+    @Action(input = "score/deleteScoreRequest", output = "score/deleteScoreResponse", fault = {
+            @FaultAction(className = IdNotFoundException.class, value = "score/deleteScore/Fault/IdNotFoundException"),
+            @FaultAction(className = ScoreTypeException.class, value = "score/deleteScore/Fault/ScoreTypeException"),
+            @FaultAction(className = ScoreModifyException.class, value = "score/deleteScore/Fault/ScoreModifyException"),
+            @FaultAction(className = AuthorityException.class, value = "score/deleteScore/Fault/AuthorityException")
+    })
+    void deleteScore(
+            @WebParam(name = "课程成绩列表", targetNamespace = "http://jw.nju.edu.cn/schema", mode = WebParam.Mode.INOUT, partName = "parameters")
+                    Holder<CourseScoreListType> parameters)
+            throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException
+    ;
+
 }

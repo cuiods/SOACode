@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Table(name = "student")
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class StudentEntity {
     private int id;
     private String sid;

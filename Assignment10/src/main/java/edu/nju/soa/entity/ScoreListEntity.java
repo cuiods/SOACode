@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Table(name = "scoreList")
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ScoreListEntity {
     private int id;
     private String cid;
@@ -47,7 +46,7 @@ public class ScoreListEntity {
         this.id = id;
     }
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany
     @JoinColumn(name = "course_id")
     public List<CourseScoreEntity> getCourseScoreEntities() {
         return courseScoreEntities;

@@ -16,7 +16,6 @@ import javax.persistence.*;
 @Table(name = "courseScore")
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class CourseScoreEntity {
     private int id;
     private int sid;

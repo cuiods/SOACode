@@ -9,6 +9,7 @@ import edu.nju.soa.entity.ScoreListEntity;
 import edu.nju.soa.entity.StudentEntity;
 import edu.nju.soa.repository.CourseScoreRepository;
 import edu.nju.soa.repository.ScoreListRepository;
+import edu.nju.soa.repository.StudentRepository;
 import edu.nju.soa.schema.tns.ScoreType;
 import org.springframework.stereotype.Repository;
 
@@ -45,8 +46,7 @@ public class ScoreDaoImpl implements ScoreDao {
         }
         List<CourseScoreEntity> courseScoreEntityList = Lists.newArrayList();
         if (courseScoreEntities!=null && !courseScoreEntities.isEmpty()) {
-            for (CourseScoreEntity entity :
-                    courseScoreEntities) {
+            for (CourseScoreEntity entity : courseScoreEntities) {
                 entity.setScoreListEntity(result);
                 courseScoreEntityList.add(courseScoreRepository.save(entity));
             }
@@ -56,10 +56,12 @@ public class ScoreDaoImpl implements ScoreDao {
     }
 
     @Override
-    public ScoreListEntity update(ScoreListEntity scoreListEntity) {
+    public ScoreListEntity update(ScoreListEntity scoreListEntity)  {
         Preconditions.checkArgument(scoreListEntity!=null);
         ScoreListEntity entity = findByCidAndType(scoreListEntity.getCid(), scoreListEntity.getScoreType());
-        delete(entity.getId());
+        if (entity!=null) {
+            delete(entity.getId());
+        }
         return save(scoreListEntity);
     }
 
@@ -86,5 +88,16 @@ public class ScoreDaoImpl implements ScoreDao {
     @Override
     public List<CourseScoreEntity> findByEntityAndSid(ScoreListEntity scoreListEntity, int sid) {
         return courseScoreRepository.findByScoreListEntityAndSid(scoreListEntity,sid);
+    }
+
+    @Override
+    public void delete(ScoreListEntity scoreListEntity) {
+        List<CourseScoreEntity> courseScoreEntities = scoreListEntity.getCourseScoreEntities();
+        courseScoreRepository.delete(courseScoreEntities);
+        List<ScoreListEntity> realEntityList = scoreListRepository.findByCidAndScoreType(scoreListEntity.getCid(), scoreListEntity.getScoreType());
+        if (realEntityList!=null && !realEntityList.isEmpty() &&
+                realEntityList.get(0).getCourseScoreEntities().size() == scoreListEntity.getCourseScoreEntities().size()) {
+            scoreListRepository.delete(scoreListEntity.getId());
+        }
     }
 }

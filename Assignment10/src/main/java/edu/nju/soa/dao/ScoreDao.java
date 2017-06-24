@@ -24,4 +24,6 @@ public interface ScoreDao {
 
     List<CourseScoreEntity> findByEntityAndSid(ScoreListEntity scoreListEntity, int sid);
 
+    void delete(ScoreListEntity scoreListEntity);
+
 }
