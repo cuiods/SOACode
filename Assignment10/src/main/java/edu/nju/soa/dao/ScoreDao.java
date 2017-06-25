@@ -1,29 +1,15 @@
 package edu.nju.soa.dao;
 
-import edu.nju.soa.entity.CourseScoreEntity;
-import edu.nju.soa.entity.ScoreListEntity;
-import edu.nju.soa.schema.tns.ScoreType;
+import edu.nju.soa.entity.TScoreEntity;
 
 import java.util.List;
 
 /**
- * Created by cuihao on 2017-06-13.
- * Score management dao
+ * Created by cuihao on 2017-06-25.
+ *
  */
 public interface ScoreDao {
-
-    ScoreListEntity findById(int id);
-
-    ScoreListEntity save(ScoreListEntity scoreListEntity);
-
-    ScoreListEntity update(ScoreListEntity scoreListEntity);
-
-    void delete(int id);
-
-    ScoreListEntity findByCidAndType(String cid, ScoreType type);
-
-    List<CourseScoreEntity> findByEntityAndSid(ScoreListEntity scoreListEntity, int sid);
-
-    void delete(ScoreListEntity scoreListEntity);
-
+    TScoreEntity save(TScoreEntity scoreEntity);
+    void delete(TScoreEntity scoreEntity);
+    List<TScoreEntity> findBySid(String sid);
 }

@@ -1,13 +1,10 @@
 package edu.nju.soa.controller;
 
-import com.google.common.collect.Lists;
 import edu.nju.soa.dao.ScoreDao;
-import edu.nju.soa.dao.StudentDao;
 import edu.nju.soa.definition.Score;
-import edu.nju.soa.entity.CourseScoreEntity;
-import edu.nju.soa.entity.ScoreListEntity;
-import edu.nju.soa.entity.StudentEntity;
+import edu.nju.soa.entity.TScoreEntity;
 import edu.nju.soa.schema.tns.*;
+import edu.nju.soa.tools.Transfer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,7 +12,6 @@ import javax.jws.WebService;
 import javax.transaction.Transactional;
 import javax.xml.ws.Holder;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by cuihao on 2017-06-12.
@@ -27,9 +23,6 @@ public class ScoreController implements Score {
 
     @Resource
     private ScoreDao scoreDao;
-
-    @Resource
-    private StudentDao studentDao;
 
     /**
      * Add score
@@ -44,20 +37,16 @@ public class ScoreController implements Score {
     @Transactional
     public void addScore(Holder<CourseScoreListType> courseScoreListTypeHolder)
             throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
-        List<CourseScore> courseScores = courseScoreListTypeHolder.value.getCourseScores();
-        validate(courseScores);
-        for (CourseScore courseScore: courseScores) {
-            for (CourseScoreType courseScoreType : courseScore.getCourseScoreTypes()) {
-                StudentEntity studentEntity = studentDao.findBySid(courseScoreType.getSid());
-                if (studentEntity == null)
-                    throw new IdNotFoundException(NotFoundReasonType.学号不存在, courseScoreType.getSid(),"学号不存在");
-                CourseScore resultCourseScore = new CourseScore();
-                resultCourseScore.setCid(courseScore.getCid());
-                resultCourseScore.setScoreType(courseScore.getScoreType());
-                resultCourseScore.setCourseScoreTypes(Lists.newArrayList(courseScoreType));
-                studentEntity.getScoreList().add(new ScoreListEntity(resultCourseScore));
-                studentDao.update(studentEntity);
+        validate(courseScoreListTypeHolder.value.getCourseScores());
+        TScoreEntity scoreEntityCurrent = null;
+        try {
+            List<TScoreEntity> scoreEntities = Transfer.transferScoreVoToEntity(courseScoreListTypeHolder.value.getCourseScores());
+            for (TScoreEntity scoreEntity: scoreEntities) {
+                scoreEntityCurrent = scoreEntity;
+                scoreDao.save(scoreEntity);
             }
+        } catch (Exception e) {
+            throw new IdNotFoundException(NotFoundReasonType.学号不存在,scoreEntityCurrent==null?"null":scoreEntityCurrent.getSid(),"");
         }
     }
 
@@ -72,10 +61,10 @@ public class ScoreController implements Score {
     @Transactional
     public CourseScoreListType getScore(String parameters) throws IdNotFoundException {
         CourseScoreListType courseScoreListType = new CourseScoreListType();
-        StudentEntity studentEntity = studentDao.findBySid(parameters);
-        if (studentEntity==null)
-            throw new IdNotFoundException(NotFoundReasonType.未找到输入学号的成绩,parameters,"No scores found");
-        courseScoreListType.setCourseScores(studentEntity.getScoreList().stream().map(CourseScore::new).collect(Collectors.toList()));
+        List<TScoreEntity> scoreEntities = scoreDao.findBySid(parameters);
+        if (scoreEntities == null || scoreEntities.isEmpty())
+            throw new IdNotFoundException(NotFoundReasonType.未找到输入学号的成绩, parameters,"");
+        courseScoreListType.setCourseScores(Transfer.transferEntityToScoreVo(scoreEntities));
         return courseScoreListType;
     }
 
@@ -92,12 +81,17 @@ public class ScoreController implements Score {
     @Transactional
     public void modifyScore(Holder<CourseScoreListType> parameters)
             throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
-        List<CourseScore> courseScores = parameters.value.getCourseScores();
-        validate(courseScores);
-        parameters.value.setCourseScores(courseScores.stream()
-                .map(ScoreListEntity::new)
-                .map(scoreListEntity -> scoreDao.update(scoreListEntity))
-                .map(CourseScore::new).collect(Collectors.toList()));
+        validate(parameters.value.getCourseScores());
+        TScoreEntity scoreEntityCurrent = null;
+        try {
+            List<TScoreEntity> scoreEntities = Transfer.transferScoreVoToEntity(parameters.value.getCourseScores());
+            for (TScoreEntity scoreEntity: scoreEntities) {
+                scoreEntityCurrent = scoreEntity;
+                scoreDao.save(scoreEntity);
+            }
+        } catch (Exception e) {
+            throw new IdNotFoundException(NotFoundReasonType.未找到输入学号的成绩,scoreEntityCurrent==null?"null":scoreEntityCurrent.getSid(),"");
+        }
     }
 
     /**
@@ -113,10 +107,17 @@ public class ScoreController implements Score {
     @Transactional
     public void deleteScore(Holder<CourseScoreListType> parameters)
             throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
-        CourseScoreListType courseScoreListType = parameters.value;
-        courseScoreListType.getCourseScores().forEach(courseScore -> {
-            scoreDao.delete(new ScoreListEntity(courseScore));
-        });
+        validate(parameters.value.getCourseScores());
+        TScoreEntity scoreEntityCurrent = null;
+        try {
+            List<TScoreEntity> scoreEntities = Transfer.transferScoreVoToEntity(parameters.value.getCourseScores());
+            for (TScoreEntity scoreEntity: scoreEntities) {
+                scoreEntityCurrent = scoreEntity;
+                scoreDao.delete(scoreEntity);
+            }
+        } catch (Exception e) {
+            throw new IdNotFoundException(NotFoundReasonType.未找到输入课程的成绩,scoreEntityCurrent==null?"null":scoreEntityCurrent.getSid(),"");
+        }
     }
 
     private void validate(List<CourseScore> courseScores) throws ScoreModifyException {

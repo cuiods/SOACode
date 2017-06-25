@@ -1,10 +1,8 @@
 
 package edu.nju.soa.schema.nju;
 
-import edu.nju.soa.entity.PersonInfoEntity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -50,13 +48,6 @@ public class PersonInfoType {
     protected AddressType address;
     @XmlElement(name = "个人简介",required = true)
     protected String description;
-
-    public PersonInfoType(PersonInfoEntity personInfoEntity) {
-        if (personInfoEntity==null) return;
-        BeanUtils.copyProperties(personInfoEntity,this,"department","address");
-        department = new DepartmentType(personInfoEntity.getDepartment());
-        address = new AddressType(personInfoEntity.getAddress());
-    }
 
     /**
      * 获取个人姓名属性的值。

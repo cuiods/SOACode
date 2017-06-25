@@ -1,22 +1,17 @@
 package edu.nju.soa.dao;
 
-import edu.nju.soa.entity.StudentEntity;
+import edu.nju.soa.entity.TScoreEntity;
+import edu.nju.soa.entity.TStudentEntity;
+
+import java.util.List;
 
 /**
- * Created by cuihao on 2017-06-13.
- * Student management dao
+ * Created by cuihao on 2017-06-25.
+ *
  */
 public interface StudentDao {
-
-    StudentEntity findById(int id);
-
-    StudentEntity findBySid(String sid);
-
-    StudentEntity save(StudentEntity studentEntity);
-
-    StudentEntity update(StudentEntity studentEntity);
-
-    void deleteById(int id);
-
+    TStudentEntity findBySid(String sid);
+    TStudentEntity save(TStudentEntity studentEntity);
     void deleteBySid(String sid);
+    void delete(TStudentEntity studentEntity);
 }

@@ -1,84 +1,58 @@
 package edu.nju.soa.dao.impl;
 
-import edu.nju.soa.dao.ScoreDao;
 import edu.nju.soa.dao.StudentDao;
-import edu.nju.soa.entity.*;
-import edu.nju.soa.repository.AddressRepository;
-import edu.nju.soa.repository.DepartmentRepository;
-import edu.nju.soa.repository.PersonInfoRepository;
-import edu.nju.soa.repository.StudentRepository;
+import edu.nju.soa.entity.TDepartmentEntity;
+import edu.nju.soa.entity.TScoreEntity;
+import edu.nju.soa.entity.TStudentEntity;
+import edu.nju.soa.repository.DepartmentRepo;
+import edu.nju.soa.repository.ScoreRepo;
+import edu.nju.soa.repository.StudentRepo;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Created by cuihao on 2017-06-13.
- * Student dao impl
+ * Created by cuihao on 2017-06-25.
+ *
  */
 @Repository
 public class StudentDaoImpl implements StudentDao {
 
     @Resource
-    private StudentRepository studentRepository;
+    private StudentRepo studentRepo;
 
     @Resource
-    private AddressRepository addressRepository;
+    private DepartmentRepo departmentRepo;
 
     @Resource
-    private DepartmentRepository departmentRepository;
-
-    @Resource
-    private PersonInfoRepository personInfoRepository;
-
-    @Resource
-    private ScoreDao scoreDao;
+    private ScoreRepo scoreRepo;
 
     @Override
-    public StudentEntity findById(int id) {
-        return studentRepository.findOne(id);
-    }
-
-    @Override
-    public StudentEntity findBySid(String sid) {
-        return studentRepository.findBySid(sid);
+    public TStudentEntity findBySid(String sid) {
+        return studentRepo.findOne(sid);
     }
 
     @Override
     @Transactional
-    public StudentEntity save(StudentEntity studentEntity) {
-        PersonInfoEntity personInfo = studentEntity.getPersonInfo();
-        DepartmentEntity departmentEntity = personInfo.getDepartment();
-        departmentEntity.setAddress(addressRepository.save(departmentEntity.getAddress()));
-        personInfo.setDepartment(departmentRepository.save(departmentEntity));
-        personInfo.setAddress(addressRepository.save(personInfo.getAddress()));
-        studentEntity.setPersonInfo(personInfoRepository.save(personInfo));
-        List<ScoreListEntity> scoreListEntities = studentEntity.getScoreList();
-        if (scoreListEntities!=null && !scoreListEntities.isEmpty()) {
-            studentEntity.setScoreList(scoreListEntities.stream().map(s->scoreDao.save(s)).collect(Collectors.toList()));
+    public TStudentEntity save(TStudentEntity studentEntity) {
+        TDepartmentEntity departmentEntity = departmentRepo.findOne(studentEntity.getDepartmentEntity().getDid());
+        if (departmentEntity == null) {
+            studentEntity.setDepartmentEntity(departmentRepo.save(studentEntity.getDepartmentEntity()));
         }
-        return studentRepository.save(studentEntity);
-    }
-
-    @Override
-    public StudentEntity update(StudentEntity studentEntity) {
-        StudentEntity entity = findBySid(studentEntity.getSid());
-        deleteById(entity.getId());
-        return save(studentEntity);
-    }
-
-    @Override
-    public void deleteById(int id) {
-        studentRepository.delete(id);
+        studentRepo.save(studentEntity);
+        return studentEntity;
     }
 
     @Override
     public void deleteBySid(String sid) {
-        StudentEntity studentEntity = studentRepository.findBySid(sid);
-        if (sid!=null) {
-            studentRepository.delete(studentEntity);
-        }
+        delete(findBySid(sid));
     }
+
+    @Override
+    public void delete(TStudentEntity studentEntity) {
+        studentRepo.delete(studentEntity);
+    }
+
 }

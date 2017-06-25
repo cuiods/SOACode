@@ -1,15 +1,20 @@
 package edu.nju.soa.controller;
 
+import edu.nju.soa.dao.ScoreDao;
 import edu.nju.soa.dao.StudentDao;
 import edu.nju.soa.definition.StudentPort;
-import edu.nju.soa.entity.StudentEntity;
+import edu.nju.soa.entity.TScoreEntity;
+import edu.nju.soa.entity.TStudentEntity;
+import edu.nju.soa.repository.ScoreRepo;
 import edu.nju.soa.schema.tns.*;
+import edu.nju.soa.tools.Transfer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * Created by cuihao on 2017-06-12.
@@ -24,6 +29,12 @@ public class StudentController implements StudentPort {
     @Resource
     private StudentDao studentDao;
 
+    @Resource
+    private ScoreDao scoreDao;
+
+    @Resource
+    private ScoreRepo scoreRepo;
+
     /**
      * get student info
      *
@@ -33,10 +44,14 @@ public class StudentController implements StudentPort {
      */
     @Override
     public StudentType getInfoById(GetInfoByIdType parameters) throws IdNotFoundException {
-        StudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
+        TStudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
         if (studentEntity == null)
-            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getSid(),"Cannot find student");
-        return new StudentType(studentEntity);
+            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getSid(),"");
+        StudentType studentType = Transfer.transferEntityToStudent(studentEntity);
+        CourseScoreListType courseScoreListType = new CourseScoreListType();
+        courseScoreListType.setCourseScores(Transfer.transferEntityToScoreVo(scoreDao.findBySid(parameters.getSid())));
+        studentType.setCourseScoreListType(courseScoreListType);
+        return studentType;
     }
 
     /**
@@ -49,11 +64,12 @@ public class StudentController implements StudentPort {
      */
     @Override
     public StudentType deleteInfoById(DeleteInfoByIdType parameters) throws AuthorityException, IdNotFoundException {
-        StudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
-        if (studentEntity == null)
-            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getSid(),"Cannot find student");
-        studentDao.deleteById(studentEntity.getId());
-        return new StudentType(studentEntity);
+        GetInfoByIdType getInfoByIdType = new GetInfoByIdType();
+        getInfoByIdType.setSid(parameters.getSid());
+        StudentType studentType = getInfoById(getInfoByIdType);
+        scoreRepo.delete(scoreDao.findBySid(parameters.getSid()));
+        studentDao.deleteBySid(parameters.getSid());
+        return studentType;
     }
 
     /**
@@ -65,7 +81,11 @@ public class StudentController implements StudentPort {
      */
     @Override
     public StudentType addInfo(AddInfoType parameters) throws IdNotFoundException {
-        return new StudentType(studentDao.save(new StudentEntity(parameters.getStudent())));
+        TStudentEntity studentEntity = Transfer.transferStudentToEntity(parameters.getStudent());
+        studentDao.save(studentEntity);
+        List<TScoreEntity> tScoreEntities = Transfer.transferScoreVoToEntity(parameters.getStudent().getCourseScoreListType().getCourseScores());
+        tScoreEntities.forEach(scoreEntity -> scoreDao.save(scoreEntity));
+        return parameters.getStudent();
     }
 
     /**
@@ -81,9 +101,10 @@ public class StudentController implements StudentPort {
     @Override
     public StudentType updateInfo(StudentType parameters)
             throws AuthorityException, IdNotFoundException, ScoreModifyException, ScoreTypeException {
-        StudentEntity studentEntity = studentDao.findBySid(parameters.getSid());
-        if (studentEntity == null)
-            throw new IdNotFoundException(NotFoundReasonType.学号不存在,parameters.getSid(),"Cannot find student");
-        return new StudentType(studentDao.update(new StudentEntity(parameters)));
+        TStudentEntity studentEntity = Transfer.transferStudentToEntity(parameters);
+        studentDao.save(studentEntity);
+        List<TScoreEntity> tScoreEntities = Transfer.transferScoreVoToEntity(parameters.getCourseScoreListType().getCourseScores());
+        tScoreEntities.forEach(scoreEntity -> scoreDao.save(scoreEntity));
+        return parameters;
     }
 }

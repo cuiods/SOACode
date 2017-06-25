@@ -16,5 +16,8 @@
         <mapping class="edu.nju.soa.entity.ScoreListEntity"/>
         <mapping class="edu.nju.soa.entity.StudentEntity"/>
         <mapping class="edu.nju.soa.entity.UserEntity"/>
+        <mapping class="edu.nju.soa.entity.TDepartmentEntity"/>
+        <mapping class="edu.nju.soa.entity.TScoreEntity"/>
+        <mapping class="edu.nju.soa.entity.TStudentEntity"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,19 +1,15 @@
 package edu.nju.soa.entity;
 
 import edu.nju.soa.schema.tns.AuthType;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 /**
- * Created by cuihao on 2017-06-13.
- *
+ * Created by cuihao on 2017-06-25.
+ * user entity
  */
 @Entity
 @Table(name = "user")
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserEntity {
     private int id;
     private String email;
@@ -21,7 +17,6 @@ public class UserEntity {
     private AuthType authType;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
@@ -52,7 +47,6 @@ public class UserEntity {
     }
 
     @Basic
-    @Enumerated(EnumType.STRING)
     @Column(name = "authType", nullable = false)
     public AuthType getAuthType() {
         return authType;
