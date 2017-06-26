@@ -34,6 +34,9 @@ public class WebServiceConfig {
     @Resource
     private StudentController studentController;
 
+    @Resource
+    private AuthHandler authHandler;
+
     @Bean
     public ServletRegistrationBean dispatcherServlet() {
         return new ServletRegistrationBean(new CXFServlet(), "/soap-api/*");
@@ -54,7 +57,7 @@ public class WebServiceConfig {
     @Bean(name = "scoreEndpoint")
     public Endpoint endpoint2() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), scoreController);
-        endpoint.setHandlers(Lists.newArrayList(new AuthHandler()));
+        endpoint.setHandlers(Lists.newArrayList(authHandler));
         endpoint.publish("/score");
         return endpoint;
     }
@@ -62,7 +65,7 @@ public class WebServiceConfig {
     @Bean(name = "studentEndpoint")
     public Endpoint endpoint3() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), studentController);
-        endpoint.setHandlers(Lists.newArrayList(new AuthHandler()));
+        endpoint.setHandlers(Lists.newArrayList(authHandler));
         endpoint.publish("/student");
         return endpoint;
     }
