@@ -66,4 +66,7 @@ public class 课程成绩列表类型 {
         return this.课程成绩;
     }
 
+    public void set课程成绩(List<课程成绩类型> 课程成绩) {
+        this.课程成绩 = 课程成绩;
+    }
 }

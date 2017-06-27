@@ -73,6 +73,10 @@ public class 课程成绩类型 {
         return this.成绩;
     }
 
+    public void set成绩(List<成绩类型> 成绩) {
+        this.成绩 = 成绩;
+    }
+
     /**
      * 获取课程编号属性的值。
      * 

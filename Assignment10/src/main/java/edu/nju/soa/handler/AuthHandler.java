@@ -42,7 +42,7 @@ public class AuthHandler implements SOAPHandler<SOAPMessageContext> {
                 }
             } catch (SOAPException e) {
                 e.printStackTrace();
-                return false;
+                return true;
             }
         }
         return true;

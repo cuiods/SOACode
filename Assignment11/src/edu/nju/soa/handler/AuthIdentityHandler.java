@@ -1,9 +1,6 @@
 package edu.nju.soa.handler;
 
-import com.sun.xml.ws.api.message.Headers;
-import com.sun.xml.ws.developer.WSBindingProvider;
 import edu.nju.soa.resolver.DefaultResolver;
-import edu.nju.soa.tools.WsdlUrl;
 import org.w3c.dom.NodeList;
 import service.*;
 
@@ -17,14 +14,13 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Created by cuihao on 2017-06-26.
- * Auth handler
+ * Created by cuihao on 2017-06-27.
+ *
  */
-public class AuthHandler implements SOAPHandler<SOAPMessageContext>{
+public class AuthIdentityHandler implements SOAPHandler<SOAPMessageContext> {
     @Override
     public Set<QName> getHeaders() {
         return null;
@@ -47,22 +43,13 @@ public class AuthHandler implements SOAPHandler<SOAPMessageContext>{
                     login.setLoginUsername(email);
                     login.setLoginPassword(password);
                     try {
-                        helloServiceInterface.login(login);
-                    } catch (LoginException e) {
-                        try {
-                            File file = new File("msg.log");
-                            if (!file.exists()) {
-                                boolean result = file.createNewFile();
-                                if (!result)
-                                    throw new IOException("Cannot create file");
-                            }
-                            FileOutputStream outputStream = new FileOutputStream(file,true);
-                            outputStream.write("====================Handler Info=====================\n".getBytes());
-                            outputStream.write(e.getFaultInfo().getMessage().getBytes());
-                            outputStream.write('\n');
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+                        LoginResponse response = helloServiceInterface.login(login);
+                        if (!response.getLoginResults().getKind().equals("教师")) {
+                            writeMsg("无权限操作.");
+                            return false;
                         }
+                    } catch (LoginException e) {
+                        writeMsg(e.getFaultInfo().getMessage());
                         return false;
                     }
                 }
@@ -72,6 +59,23 @@ public class AuthHandler implements SOAPHandler<SOAPMessageContext>{
             }
         }
         return true;
+    }
+
+    private void writeMsg(String msg) {
+        try {
+            File file = new File("msg.log");
+            if (!file.exists()) {
+                boolean result = file.createNewFile();
+                if (!result)
+                    throw new IOException("Cannot create file.");
+            }
+            FileOutputStream outputStream = new FileOutputStream(file,true);
+            outputStream.write("====================Handler Info=====================\n".getBytes());
+            outputStream.write(msg.getBytes());
+            outputStream.write('\n');
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override

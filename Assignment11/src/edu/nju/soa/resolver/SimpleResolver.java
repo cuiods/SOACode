@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cuihao on 2017-06-26.
+ * Created by cuihao on 2017-06-27.
  *
  */
-public class DefaultResolver implements HandlerResolver {
+public class SimpleResolver implements HandlerResolver{
+
     @Override
     public List<Handler> getHandlerChain(PortInfo portInfo) {
-
         List<Handler> handlers = new ArrayList<>();
         handlers.add(new LogHandler());
-
+        handlers.add(new AuthHandler());
         return handlers;
     }
 }

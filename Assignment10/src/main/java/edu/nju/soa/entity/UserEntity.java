@@ -47,6 +47,7 @@ public class UserEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "authType", nullable = false)
     public AuthType getAuthType() {
         return authType;
