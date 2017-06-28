@@ -2,6 +2,7 @@ package edu.nju.soa.resolver;
 
 import edu.nju.soa.handler.AuthIdentityHandler;
 import edu.nju.soa.handler.LogHandler;
+import edu.nju.soa.handler.StudentModifyHandler;
 
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.HandlerResolver;
@@ -19,6 +20,7 @@ public class ComplexResolver implements HandlerResolver{
         List<Handler> handlers = new ArrayList<>();
         handlers.add(new LogHandler());
         handlers.add(new AuthIdentityHandler());
+        handlers.add(new StudentModifyHandler());
         return handlers;
     }
 }

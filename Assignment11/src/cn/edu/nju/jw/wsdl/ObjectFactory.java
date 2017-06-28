@@ -30,11 +30,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link 学号课程号类型 }
+     * Create an instance of {@link 学生信息 }
      * 
      */
-    public 学号课程号类型 create学号课程号类型() {
-        return new 学号课程号类型();
+    public 学生信息 create学生信息() {
+        return new 学生信息();
     }
 
     /**
@@ -62,19 +62,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link 排序类型 }
+     * Create an instance of {@link 学号课程号类型 }
      * 
      */
-    public 排序类型 create排序类型() {
-        return new 排序类型();
-    }
-
-    /**
-     * Create an instance of {@link 学生信息 }
-     * 
-     */
-    public 学生信息 create学生信息() {
-        return new 学生信息();
+    public 学号课程号类型 create学号课程号类型() {
+        return new 学号课程号类型();
     }
 
     /**

@@ -67,6 +67,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link 学号类型 }
+     * 
+     */
+    public 学号类型 create学号类型() {
+        return new 学号类型();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link 个人信息类型 }{@code >}}
      * 
      */
